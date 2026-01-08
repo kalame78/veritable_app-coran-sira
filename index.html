@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sira Coranique — V26 (Sira Focus)</title>
+  <title>Sira Coranique — V27 (Ad-Duha)</title>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -261,7 +261,7 @@
       <div class="hub-grid">
         <div class="hub-card th-mekka" onclick="loadModule('al-alaq')"><span class="hub-icon">⛰️</span><div class="hub-title-txt">96. Al-'Alaq</div><div class="hub-sub-txt">Lis !</div></div>
         <div class="hub-card th-mekka" onclick="loadModule('al-muddathir')"><span class="hub-icon">🛌</span><div class="hub-title-txt">74. Al-Muddathir</div><div class="hub-sub-txt">Lève-toi</div></div>
-        <div class="hub-card th-hope locked"><span class="lock-icon">🔒</span><span class="hub-icon">☀️</span><div class="hub-title-txt">93. Ad-Duha</div><div class="hub-sub-txt">Le Jour</div></div>
+        <div class="hub-card th-hope" onclick="loadModule('ad-duha')"><span class="hub-icon">☀️</span><div class="hub-title-txt">93. Ad-Duha</div><div class="hub-sub-txt">Le Jour</div></div>
         <div class="hub-card th-hope locked"><span class="lock-icon">🔒</span><span class="hub-icon">❤️</span><div class="hub-title-txt">94. Al-Inshirah</div><div class="hub-sub-txt">Soulagement</div></div>
       </div>
     </div>
@@ -567,7 +567,7 @@
       }
     },
 
-    // 74. AL-MUDDATHIR (LÈVE-TOI !) - AJOUTÉ ET COMPLÉTÉ
+    // 74. AL-MUDDATHIR (LÈVE-TOI !) - COMPLET
     "al-muddathir": {
       title: "74. Al-Muddathir", totalVerses: 56, surahId: 74,
       verses: [
@@ -606,7 +606,6 @@
             sourceDetail: "Avec \"Iqra\", il est devenu Prophète (Nabi).\nAvec \"Qum fa-andhir\", il est devenu Messager (Rasul).\n(Tafsir Al-Qurtubi ; Al-Muharrar al-Wajiz [16])."
           }
         ],
-        // CONTENU CHERCHEUR AJOUTÉ
         chercheur: [
           {
             img: "🛑",
@@ -634,7 +633,6 @@
           }
         ]
       },
-      // JEUX AJOUTÉS
       games: {
         age6: {
           vocab: [
@@ -681,6 +679,127 @@
             {q:"وَرَ‌بَّكَ .......",tr:"Wa rabbaka ...",a:"فَكَبِّرۡ",opts:["فَكَبِّرۡ","فَٱعْبُدۡ"]},
             {q:"وَثِيَابَكَ .......",tr:"Wa thiyabaka ...",a:"فَطَهِّرۡ",opts:["فَطَهِّرۡ","فَجَمِّلۡ"]},
             {q:"وَٱلرُّجۡزَ .......",tr:"War-rujza ...",a:"فَٱهۡجُرۡ",opts:["فَٱهۡجُرۡ","فَٱتْرُكۡ"]}
+          ]
+        }
+      }
+    },
+
+    // 93. AD-DUHA (LE JOUR) - COMPLET
+    "ad-duha": {
+      title: "93. Ad-Duha", totalVerses: 11, surahId: 93,
+      verses: [
+        { id:1, ar:"وَٱلضُّحَىٰ", tr:"Wad-duha", fr:"Par le jour montant !" },
+        { id:2, ar:"وَٱلَّيۡلِ إِذَا سَجَىٰ", tr:"Wal-layli idha saja", fr:"Et par la nuit quand elle couvre tout !" },
+        { id:3, ar:"مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ", tr:"Ma wadda'aka rabbuka wa ma qala", fr:"Ton Seigneur ne t'a ni abandonné, ni détesté." },
+        { id:4, ar:"وَلَلۡأٓخِرَةُ خَيۡرٞ لَّكَ مِنَ ٱلۡأُولَىٰ", tr:"Wa lal-akhiratu khayrun laka mina l-ula", fr:"La vie dernière t'est, certes, meilleure que la vie présente." },
+        { id:5, ar:"وَلَسَوۡفَ يُعۡطِيكَ رَبُّكَ فَتَرۡضَىٰٓ", tr:"Wa lasawfa yu'tika rabbuka fatarda", fr:"Ton Seigneur t'accordera certes [Ses faveurs], et alors tu seras satisfait." },
+        { id:6, ar:"أَلَمۡ يَجِدۡكَ يَتِيمٗا فَـَٔاوَىٰ", tr:"Alam yajidka yatiman fa-awa", fr:"Ne t'a-t-Il pas trouvé orphelin ? Alors Il t'a accueilli." },
+        { id:7, ar:"وَوَجَدَكَ ضَآلّٗا فَهَدَىٰ", tr:"Wa wajadaka dallan fahada", fr:"Et Il t'a trouvé cherchant ton chemin ? Alors Il t'a guidé." },
+        { id:8, ar:"وَوَجَدَكَ عَآئِلٗا فَأَغۡنَىٰ", tr:"Wa wajadaka 'a-ilan fa-aghna", fr:"Et Il t'a trouvé pauvre ? Alors Il t'a enrichi." },
+        { id:9, ar:"فَأَمَّا ٱلۡيَتِيمَ فَلَا تَقۡهَرۡ", tr:"Fa-amma l-yatima fala taqhar", fr:"Quant à l'orphelin, donc, ne le maltraite pas." },
+        { id:10, ar:"وَأَمَّا ٱلسَّآئِلَ فَلَا تَنۡهَرۡ", tr:"Wa amma s-sa-ila fala tanhar", fr:"Quant au demandeur, ne le repousse pas." },
+        { id:11, ar:"وَأَمَّا بِنِعۡمَةِ رَبِّكَ فَحَدِّثۡ", tr:"Wa amma bi-ni'mati rabbika fahaddith", fr:"Et quant au bienfait de ton Seigneur, proclame-le." }
+      ],
+      story: {
+        eveil: [
+          {
+            img: "😢",
+            title: "Tristesse",
+            text: "Le Prophète ﷺ était très triste car l'Ange Jibril ne venait plus le voir. Les méchants se moquaient de lui : \"Ah ! Ton Dieu t'a laissé tomber !\". Il se sentait seul.",
+            sourceDetail: "Le Prophète est tombé malade et n'a pas prié la nuit. Une femme est venue se moquer de lui.\n(Sahih Al-Bukhari [4]).\n<span class='ar-text'>نزلت حين قال المشركون: إن محمدا ودعه ربه</span>\n(Tafsir Ibn Atiyyah [2])."
+          },
+          {
+            img: "☀️",
+            title: "Réconfort",
+            text: "Mais Allah a juré par la lumière du matin et le calme de la nuit ! Il lui a dit : \"Ton Seigneur ne t'a pas abandonné et Il ne te déteste pas !\"",
+            sourceDetail: "<span class='ar-text'>مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ</span>\n(Verset 3)\n\"Ton Seigneur ne t'a ni abandonné, ni détesté.\"\n(Tafsir Al-Bahr Al-Muhit [5])."
+          },
+          {
+            img: "🤲",
+            title: "L'Orphelin",
+            text: "Allah lui rappelle son enfance : \"Ne t'inquiète pas. Quand tu étais un petit orphelin, Je t'ai protégé\". Allah sera toujours là pour lui.",
+            sourceDetail: "<span class='ar-text'>أَلَمْ يَجِدْكَ يَتِيمًا فَآوَىٰ</span>\n(Verset 6)\n\"Il t'a trouvé orphelin et t'a donné un refuge (par ton grand-père puis ton oncle).\"\n(Tafsir Al-Mukhtasar [16])."
+          },
+          {
+            img: "🎁",
+            title: "La Promesse",
+            text: "Allah lui fait une promesse incroyable : \"Je vais te donner tellement de choses que tu seras super content !\".",
+            sourceDetail: "<span class='ar-text'>وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ</span>\n(Verset 5)\n\"Et ton Seigneur t'accordera certes [Ses faveurs], et alors tu seras satisfait.\"\n(Tafsir Al-Thaalibi [15])."
+          }
+        ],
+        chercheur: [
+          {
+            img: "🛑",
+            title: "Le Silence (Al-Fatrah)",
+            text: "Après la grotte de Hira, la révélation s'est arrêtée. Le Prophète ﷺ a cru qu'Allah était fâché contre lui. Cette sourate est venue comme une lumière.",
+            sourceDetail: "La 'Fatrah al-Wahi' (pause de la révélation) fut une épreuve psychologique intense.\n<span class='ar-text'>فانقطع عنه الوحي مدة</span>\n(Tafsir Al-Siwasi [4])."
+          },
+          {
+            img: "💎",
+            title: "La Plus Grande Promesse",
+            text: "Allah dit : \"Ton Seigneur te donnera et tu seras satisfait\". C'est l'un des versets les plus pleins d'espoir : la victoire ici-bas et l'Intercession (Shafa'a) dans l'au-delà.",
+            sourceDetail: "<span class='ar-text'>وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ</span>\n(Verset 5)\n\"Il ne sera pas satisfait tant qu'un seul de sa communauté sera en Enfer.\"\n(Tafsir Al-Thaalibi [15])."
+          },
+          {
+            img: "🛤️",
+            title: "L'Enfance Guidée",
+            text: "\"Il t'a trouvé Dâllan (cherchant ton chemin) et t'a guidé\". Cela ne veut pas dire qu'il était pécheur, mais qu'il cherchait la Vérité avant de recevoir le Coran.",
+            sourceDetail: "<span class='ar-text'>وَوَجَدَكَ ضَالًّا فَهَدَىٰ</span>\n(Verset 7)\n\"Dâllan : Il ne connaissait pas les détails de la Loi, et il n'était pas polythéiste.\"\n(Tafsir Ash-Shawkani [10])."
+          },
+          {
+            img: "🤝",
+            title: "La Mission Sociale",
+            text: "Parce qu'il a souffert étant orphelin et pauvre, Allah lui ordonne d'être le défenseur des faibles. C'est la base du comportement (Adab) du musulman.",
+            sourceDetail: "<span class='ar-text'>فَأَمَّا الْيَتِيمَ فَلَا تَقْهَرْ</span>\n(Verset 9)\n\"Ne maltraite pas celui qui a perdu son père.\"\n(Tafsir Al-Mukhtasar [16])."
+          }
+        ]
+      },
+      games: {
+        age6: {
+          vocab: [
+            {q:"ٱلضُّحَىٰ",tr:"Ad-Duha",a:"Le Jour Montant",opts:[{t:"Le Jour Montant",i:"☀️"},{t:"La Nuit",i:"🌑"}]},
+            {q:"سَجَىٰ",tr:"Saja",a:"Couvre tout (Calme)",opts:[{t:"Couvre tout (Calme)",i:"🤫"},{t:"Fait du bruit",i:"📢"}]},
+            {q:"يَتِيمٗا",tr:"Yatiman",a:"Orphelin",opts:[{t:"Orphelin",i:"👶"},{t:"Riche",i:"💰"}]},
+            {q:"فَـَٔاوَىٰ",tr:"Fa-awa",a:"Il a accueilli (Refuge)",opts:[{t:"Il a accueilli (Refuge)",i:"🏠"},{t:"Il a chassé",i:"🚪"}]},
+            {q:"مَا وَدَّعَكَ",tr:"Ma wadda'aka",a:"Il ne t'a pas abandonné",opts:[{t:"Il ne t'a pas abandonné",i:"🤝"},{t:"Il est parti",i:"🚶"}]},
+            {q:"فَتَرۡضَىٰٓ",tr:"Fatarda",a:"Tu seras satisfait",opts:[{t:"Tu seras satisfait",i:"😊"},{t:"Tu seras triste",i:"😢"}]}
+          ],
+          puzzle: [
+            {full:["وَٱلضُّحَىٰ"],tr:"Wad-duha"},
+            {full:["وَٱلَّيۡلِ","إِذَا","سَجَىٰ"],tr:"Wal-layli idha saja"},
+            {full:["مَا","وَدَّعَكَ","رَبُّكَ","وَمَا","قَلَىٰ"],tr:"Ma wadda'aka rabbuka wa ma qala"},
+            {full:["وَلَلۡأٓخِرَةُ","خَيۡرٞ","لَّكَ","مِنَ","ٱلۡأُولَىٰ"],tr:"Wa lal-akhiratu khayrun laka mina l-ula"},
+            {full:["وَلَسَوۡفَ","يُعۡطِيكَ","رَبُّكَ","فَتَرۡضَىٰٓ"],tr:"Wa lasawfa yu'tika rabbuka fatarda"}
+          ],
+          missing: [
+            {q:"وَٱلضُّحَىٰ وَٱلَّيۡلِ .......",tr:"Wad-duha wal-layli ...",a:"إِذَا سَجَىٰ",opts:[{t:"إِذَا سَجَىٰ",i:"🌑"},{t:"إِذَا يَغْشَىٰ",i:"☁️"}]},
+            {q:"مَا ....... رَبُّكَ وَمَا قَلَىٰ",tr:"Ma ... rabbuka wa ma qala",a:"وَدَّعَكَ",opts:[{t:"وَدَّعَكَ",i:"👋"},{t:"تَرَكَكَ",i:"🚫"}]},
+            {q:"أَلَمۡ يَجِدۡكَ ....... فَـَٔاوَىٰ",tr:"Alam yajidka ... fa-awa",a:"يَتِيمٗا",opts:[{t:"يَتِيمٗا",i:"👶"},{t:"غَنِيًّا",i:"💰"}]},
+            {q:"وَلَسَوۡفَ يُعۡطِيكَ ....... فَتَرۡضَىٰٓ",tr:"Wa lasawfa yu'tika ... fatarda",a:"رَبُّكَ",opts:[{t:"رَبُّكَ",i:"☝️"},{t:"النَّاسُ",i:"👥"}]}
+          ]
+        },
+        age8: {
+          vocab: [
+            {q:"قَلَىٰ",tr:"Qala",a:"Détesté / Haï",opts:["Détesté / Haï","Aimé","Oublié"]},
+            {q:"عَآئِلٗا",tr:"'A-ilan",a:"Pauvre / Dans le besoin",opts:["Pauvre / Dans le besoin","Riche","Voyageur"]},
+            {q:"فَأَغۡنَىٰ",tr:"Fa-aghna",a:"Il a enrichi",opts:["Il a enrichi","Il a appauvri","Il a guidé"]},
+            {q:"فَلَا تَقۡهَرۡ",tr:"Fala taqhar",a:"Ne maltraite pas (Ne domine pas)",opts:["Ne maltraite pas","Ne donne pas","Ne parle pas"]},
+            {q:"فَلَا تَنۡهَرۡ",tr:"Fala tanhar",a:"Ne repousse pas (rudement)",opts:["Ne repousse pas","Ne mange pas","Ne dors pas"]},
+            {q:"فَحَدِّثۡ",tr:"Fahaddith",a:"Proclame (Raconte)",opts:["Proclame (Raconte)","Cache","Oublie"]}
+          ],
+          puzzle: [
+            {full:["مَا","وَدَّعَكَ","رَبُّكَ","وَمَا","قَلَىٰ"],tr:"Verset 3"},
+            {full:["وَلَلۡأٓخِرَةُ","خَيۡرٞ","لَّكَ","مِنَ","ٱلۡأُولَىٰ"],tr:"Verset 4"},
+            {full:["وَلَسَوۡفَ","يُعۡطِيكَ","رَبُّكَ","فَتَرۡضَىٰٓ"],tr:"Verset 5"},
+            {full:["أَلَمۡ","يَجِدۡكَ","يَتِيمٗا","فَـَٔاوَىٰ"],tr:"Verset 6"},
+            {full:["وَوَجَدَكَ","ضَآلّٗا","فَهَدَىٰ"],tr:"Verset 7"}
+          ],
+          missing: [
+            {q:"وَوَجَدَكَ ضَآلّٗا .......",tr:"Wa wajadaka dallan ...",a:"فَهَدَىٰ",opts:["فَهَدَىٰ","فَأَغْنَىٰ"]},
+            {q:"وَوَجَدَكَ ....... فَأَغۡنَىٰ",tr:"Wa wajadaka ... fa-aghna",a:"عَآئِلٗا",opts:["عَآئِلٗا","يَتِيمًا"]},
+            {q:"فَأَمَّا ٱلۡيَتِيمَ .......",tr:"Fa-amma l-yatima ...",a:"فَلَا تَقۡهَرۡ",opts:["فَلَا تَقۡهَرۡ","فَلَا تَنْهَرْ"]},
+            {q:"وَأَمَّا ٱلسَّآئِلَ .......",tr:"Wa amma s-sa-ila ...",a:"فَلَا تَنۡهَرۡ",opts:["فَلَا تَنۡهَرۡ","فَلَا تَقْهَرْ"]},
+            {q:"وَأَمَّا بِنِعۡمَةِ رَبِّكَ .......",tr:"Wa amma bi-ni'mati rabbika ...",a:"فَحَدِّثۡ",opts:["فَحَدِّثۡ","فَٱصْبِرۡ"]}
           ]
         }
       }
@@ -763,9 +882,7 @@
           ]
         }
       }
-    },
-    // PLACEHOLDERS POUR LES FUTURS MODULES
-    "ad-duha": { title: "Ad-Duha", totalVerses: 11, surahId: 93, verses: [], story: {eveil:[],chercheur:[]}, games: {age6:{},age8:{}} }
+    }
   };
 
   // ====================== MOTEUR (ENGINE) ======================
