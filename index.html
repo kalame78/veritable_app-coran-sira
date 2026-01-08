@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Sira Coranique — Module Final V9</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* -----------------------------------------------------------
+       1. VARIABLES & THEME
+       ----------------------------------------------------------- */
+    @import url('https://cdn.jsdelivr.net/npm/kfgqpc-uthmanic-script-hafs-regular@1.0.0/index.min.css');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka:wght@400;600&display=swap');
+
+    :root {
+      --primary: #6C5CE7;
+      --bg-color: #dfe6e9;
+      --card-bg: #ffffff;
+      
+      /* Game Theme */
+      --quiz-bg: #2c0b56; 
+      --lvl-1: #00b894; 
+      --lvl-2: #0984e3; 
+      --lvl-3: #d63031; 
+      
+      --correct: #2ecc71;
+      --wrong: #ff4757;
+      --neon-glow: #00ff88;
+      
+      --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    body {
+      margin: 0; background-color: var(--bg-color);
+      background-image: radial-gradient(#b2bec3 15%, transparent 16%);
+      background-size: 24px 24px;
+      font-family: 'Nunito', sans-serif;
+      padding-bottom: 120px;
+      min-height: 100vh;
+    }
+
+    .app-container { 
+      width: 100%; max-width: 800px; margin: 0 auto; padding: 15px; 
+      transition: all 0.3s ease;
+    }
+
+    @media (min-width: 801px) {
+      .app-container {
+        margin-top: 30px; background: rgba(255,255,255,0.4);
+        border-radius: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); padding: 40px;
+      }
+    }
+
+    /* -----------------------------------------------------------
+       2. HEADER & TOOLBARS
+       ----------------------------------------------------------- */
+    .header-box {
+      background: linear-gradient(135deg, var(--primary), #4834d4);
+      border-radius: 24px; padding: 20px; color: white;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 15px; text-align: center;
+    }
+    .header-title { font-family: 'Fredoka', sans-serif; font-size: 1.8rem; margin: 0; }
+    
+    /* Main Toolbar */
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 10px; }
+    
+    /* Font Toolbar (New) */
+    .font-toolbar { 
+      display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: center;
+      margin-bottom: 25px; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 16px;
+    }
+
+    .tool-btn {
+      background: white; border: 2px solid #dfe6e9; border-radius: 14px; padding: 10px 16px;
+      font-weight: 800; color: #636e72; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      font-size: 0.9rem; transition: 0.2s; user-select: none;
+    }
+    .tool-btn:hover, .tool-btn.active { border-color: var(--primary); color: var(--primary); background: #fdfdff; transform: translateY(-2px); }
+    
+    .font-group { display: flex; align-items: center; gap: 5px; }
+    .font-label { font-size: 0.8rem; font-weight: 900; color: #636e72; margin-right: 5px; }
+    .mini-btn {
+      width: 30px; height: 30px; border-radius: 50%; border: 2px solid #dfe6e9; background: white;
+      font-weight: 900; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: 0.2s;
+    }
+    .mini-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+    .reciter-select { border: none; background: transparent; font-family: 'Nunito'; font-weight: 800; color: #2d3436; outline: none; cursor: pointer; font-size: 0.9rem; }
+
+    /* -----------------------------------------------------------
+       3. LECTURE & CARDS
+       ----------------------------------------------------------- */
+    .verse-card {
+      background: var(--card-bg); border-radius: 24px; padding: 20px;
+      border-bottom: 5px solid #dfe6e9; margin-bottom: 15px;
+      transition: transform 0.3s var(--bounce); position: relative;
+    }
+    .verse-card.active {
+      border-color: var(--primary); transform: scale(1.01);
+      box-shadow: 0 0 25px rgba(108, 92, 231, 0.4); z-index: 10;
+    }
+    
+    .verse-header { display: flex; justify-content: space-between; align-items: center; gap:10px; margin-bottom: 10px; }
+    .badge { background:#f1f2f6; color:#636e72; font-weight:900; padding:6px 12px; border-radius:12px; font-size:0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .audio-controls { display:flex; align-items:center; gap:8px; }
+
+    .play-btn {
+      background: var(--primary); color: white; border: none; width: 42px; height: 42px;
+      border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; transition: 0.2s; flex-shrink: 0;
+    }
+    .play-btn.playing { background: #ff7675; animation: pulse 1.5s infinite; }
+    
+    /* Typographie Responsive */
+    .ar-text { 
+      font-family: 'KFGQPC Uthmanic Script HAFS Regular', serif; 
+      text-align: right; direction: rtl; margin: 10px 0 15px 0; line-height: 1.7; color: black; 
+      font-size: 32px; /* Valeur par défaut JS */
+      transition: font-size 0.2s ease;
+    }
+    .tr-text { color: #e17055; font-weight: 800; font-size: 16px; margin-bottom: 4px; display: block; transition: font-size 0.2s ease; }
+    .fr-text { color: #636e72; font-style: italic; font-size: 16px; display: block; line-height: 1.4; transition: font-size 0.2s ease; }
+    
+    /* Media Query Mobile (<600px) */
+    @media (max-width: 600px) {
+      .header-title { font-size: 1.5rem; }
+      .tool-btn { padding: 8px 12px; font-size: 0.8rem; }
+      .verse-card { padding: 16px; }
+    }
+
+    .d-none { display: none !important; }
+
+    /* -----------------------------------------------------------
+       4. MODALS & UI ELEMENTS
+       ----------------------------------------------------------- */
+    .fullscreen-modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 300; display: none; flex-direction: column; overflow-y: auto;
+      scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;
+    }
+    .fullscreen-modal.open { display: flex; animation: fadeIn 0.3s; }
+
+    /* RECORDER */
+    .recorder-bg { background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: flex-end; }
+    .recorder-sheet {
+      background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 30px 20px;
+      text-align: center; animation: slideUp 0.3s var(--bounce); max-width: 600px; margin: 0 auto;
+    }
+    .mic-big-btn {
+      width: 80px; height: 80px; border-radius: 50%; background: #f1f2f6; 
+      border: 4px solid var(--wrong); color: var(--wrong); font-size: 2.2rem; 
+      margin: 20px auto; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;
+    }
+    .mic-big-btn.recording { background: var(--wrong); color: white; animation: pulse 1s infinite; }
+
+    /* GAME HUB */
+    .quiz-bg { background: var(--quiz-bg); color: white; padding: 15px; align-items: center; }
+    .quiz-nav { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px; }
+    .close-btn { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; opacity: 0.8; }
+
+    .progress-track { width: 100%; max-width: 500px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; margin-bottom: 20px; display: none; }
+    .progress-fill { height: 100%; width: 0%; background: #00cec9; transition: width 0.5s ease; }
+
+    /* MENUS (Grid Responsive) */
+    .grid-menu { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+      gap: 15px; width: 100%; max-width: 500px; margin-top: 20px; 
+    }
+    .menu-card {
+      background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px 10px; text-align: center;
+      cursor: pointer; border: 3px solid transparent; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .menu-card:active { transform: scale(0.96); background: rgba(255,255,255,0.2); }
+    .menu-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); }
+    .menu-title { font-family: 'Fredoka'; font-size: 1.1rem; }
+    .menu-sub { font-size: 0.75rem; opacity: 0.7; margin-top: 4px; }
+
+    /* GAME AREA */
+    .game-area { width: 100%; max-width: 500px; display: none; flex-direction: column; align-items: center; text-align: center; padding-bottom: 40px; }
+    
+    .question-box { margin-bottom: 25px; min-height: 120px; width:100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    
+    .q-ar { font-family: 'KFGQPC Uthmanic Script HAFS Regular'; font-size: 3rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); line-height: 1.3; margin-bottom: 8px; direction:rtl; }
+    
+    @media (max-width: 480px) { .q-ar { font-size: 2.2rem; } }
+
+    .q-tr-game { 
+      font-family: 'Nunito'; font-size: 1rem; line-height: 1.3; color: #a29bfe; 
+      font-weight: 700; opacity: 0.9; letter-spacing: 0.5px; 
+      background: rgba(0,0,0,0.25); padding: 8px 14px; border-radius: 12px;
+      white-space: normal; max-width: 95%; display: inline-block;
+    }
+
+    /* OPTIONS GRID */
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+    @media (max-width: 340px) { .options-grid { grid-template-columns: 1fr; } }
+
+    .game-btn {
+      background: #5f27cd; color: white; border: none; padding: 16px 8px;
+      border-radius: 16px; font-weight: 800; font-size: 1rem; cursor: pointer;
+      box-shadow: 0 5px 0 #3c1585; position: relative; transition: 0.1s; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      min-height: 70px; user-select: none;
+    }
+    .game-btn:active { transform: translateY(4px); box-shadow: none; }
+    .game-btn-icon { font-size: 2rem; filter: drop-shadow(0 3px 0 rgba(0,0,0,0.2)); }
+    
+    .game-btn.correct { background: var(--correct) !important; box-shadow: 0 5px 0 #219150; animation: pop 0.4s; }
+    .game-btn.reveal { border: 3px solid var(--correct); background: rgba(46, 204, 113, 0.4) !important; }
+    .game-btn.wrong { background: var(--wrong) !important; box-shadow: 0 5px 0 #c0392b; animation: shake 0.5s; opacity: 0.7; }
+
+    /* PUZZLE AREA (RTL STRICT) */
+    .puzzle-area { width:100%; display:none; }
+    .puzzle-dropzone {
+      width: 100%; min-height: 100px; 
+      border: 3px dashed rgba(255,255,255,0.3); border-radius: 16px;
+      display: flex; flex-wrap: wrap; 
+      flex-direction: row; direction: rtl !important; justify-content: flex-start;
+      align-items: center; gap: 10px; padding: 15px; margin-bottom: 20px; 
+      background: rgba(0,0,0,0.15);
+    }
+    .puzzle-source { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; direction: rtl !important; }
+    .puzzle-piece {
+      background: white; color: #2d3436; padding: 8px 16px; border-radius: 12px;
+      font-family: 'KFGQPC Uthmanic Script HAFS Regular'; font-size: 1.4rem; cursor: pointer;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.2); user-select: none; transition: 0.1s;
+    }
+    .puzzle-piece:active { transform: scale(0.95); background: #eee; }
+
+    .correction-box { 
+      margin-top: 20px; background: rgba(255,255,255,0.15); padding: 15px; 
+      border-radius: 15px; color: #ffcccc; font-weight: 800; 
+      display: none; animation: slideUp 0.3s; width: 100%; backdrop-filter: blur(5px);
+    }
+
+    .neon-text { font-family: 'KFGQPC Uthmanic Script HAFS Regular', serif; font-size: 3.5rem; color: #fff; margin-bottom: 10px; display: block; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--neon-glow), 0 0 40px var(--neon-glow); animation: neonZoom 1s ease-out forwards; }
+
+    /* FABs */
+    .fabs-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 200; }
+    .fab-btn { width: 60px; height: 60px; border-radius: 50%; border: none; color: white; font-size: 1.6rem; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .fab-btn:active { transform: scale(0.9); }
+    .fab-mic { background: var(--wrong); border: 3px solid white; }
+    .fab-quiz { background: #fdcb6e; color: #d35400; border: 3px solid white; }
+
+    #level-complete { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--quiz-bg); z-index: 500; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 118, 117, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 118, 117, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 118, 117, 0); } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes neonZoom { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1.2); opacity: 1; } }
+
+  </style>
+</head>
+
+<body>
+
+<div class="app-container">
+  <div class="header-box"><h1 class="header-title">Surah Ar-Rum</h1></div>
+
+  <div class="toolbar">
+    <div class="tool-btn">
+      <span style="font-size:1.1rem">🎙️</span>
+      <select id="reciter-opt" onchange="changeReciter(this.value)" class="reciter-select">
+        <option value="Minshawy_Teacher_128kbps">Minshawi (Enfant)</option>
+        <option value="Alafasy_128kbps">Mishary Alafasy</option>
+        <option value="Husary_Muallim_128kbps">Al-Hussary</option>
+      </select>
+    </div>
+    <button class="tool-btn" onclick="toggleLayer('tr-text', this)">👁️ Phonétique</button>
+    <button class="tool-btn" onclick="toggleLayer('fr-text', this)">📖 Français</button>
+    <button class="tool-btn" onclick="openRecorder()" style="border-color:var(--wrong); color:var(--wrong);">🎤 Studio</button>
+  </div>
+
+  <div class="font-toolbar">
+    <div class="font-group">
+      <span class="font-label">AR</span>
+      <button class="mini-btn" onclick="adjustSize('ar', -2)">-</button>
+      <button class="mini-btn" onclick="adjustSize('ar', 2)">+</button>
+    </div>
+    <div class="font-group" style="margin-left:15px;">
+      <span class="font-label">FR/TR</span>
+      <button class="mini-btn" onclick="adjustSize('tr', -1); adjustSize('fr', -1)">-</button>
+      <button class="mini-btn" onclick="adjustSize('tr', 1); adjustSize('fr', 1)">+</button>
+    </div>
+  </div>
+
+  <div class="verse-card" id="card-30-1">
+    <div class="verse-header">
+      <span class="badge">Verset 1</span>
+      <div class="audio-controls">
+        <button class="play-btn" id="btn-30-1" onclick="playAyah(30,1)">▶</button>
+      </div>
+    </div>
+    <div class="ar-text">الٓمٓ</div>
+    <div class="tr-text">Alif - Lâm - Mîm</div>
+    <div class="fr-text">Alif, Lâm, Mîm.</div>
+  </div>
+
+  <div class="verse-card" id="card-30-2">
+    <div class="verse-header">
+      <span class="badge">Verset 2</span>
+      <div class="audio-controls">
+        <button class="play-btn" id="btn-30-2" onclick="playAyah(30,2)">▶</button>
+      </div>
+    </div>
+    <div class="ar-text">غُلِبَتِ ٱلرُّومُ</div>
+    <div class="tr-text">Ghoulibati r-Roum</div>
+    <div class="fr-text">Les Romains ont été vaincus,</div>
+  </div>
+
+  <div class="verse-card" id="card-30-3">
+    <div class="verse-header">
+      <span class="badge">Verset 3</span>
+      <div class="audio-controls">
+        <button class="play-btn" id="btn-30-3" onclick="playAyah(30,3)">▶</button>
+      </div>
+    </div>
+    <div class="ar-text">فِيٓ أَدۡنَى ٱلۡأَرۡضِ وَهُم مِّنۢ بَعۡدِ غَلَبِهِمۡ سَيَغۡلِبُونَ</div>
+    <div class="tr-text">Fī adna l-arḍi wa hum min ba‘di ghalabihim sayaghlibūn</div>
+    <div class="fr-text">dans le pays voisin, et après leur défaite ils seront vainqueurs,</div>
+  </div>
+
+  <div class="verse-card" id="card-30-4">
+    <div class="verse-header">
+      <span class="badge">Verset 4</span>
+      <div class="audio-controls">
+        <button class="play-btn" id="btn-30-4" onclick="playAyah(30,4)">▶</button>
+      </div>
+    </div>
+    <div class="ar-text">فِي بِضۡعِ سِنِينَۗ لِلَّهِ ٱلۡأَمۡرُ مِن قَبۡلُ وَمِنۢ بَعۡدُۚ وَيَوۡمَئِذٖ يَفۡرَحُ ٱلۡمُؤۡمِنُونَ</div>
+    <div class="tr-text">Fī biḍ‘i sinīn. Lillāhi l-amru min qablu wa min ba‘du wa-yawma-idhin yafraḥu al-mu’minūn</div>
+    <div class="fr-text">dans quelques années. À Allah appartient le commandement, avant comme après, et ce jour-là les Croyants se réjouiront.</div>
+  </div>
+</div>
+
+<div class="fabs-container">
+  <button class="fab-btn fab-quiz" onclick="openGameHub()">🧠</button>
+  <button class="fab-btn fab-mic" onclick="openRecorder()">🎤</button>
+</div>
+
+<div class="fullscreen-modal recorder-bg" id="recorder-modal">
+  <div class="recorder-sheet">
+    <h2 style="font-family:'Fredoka'; color:#2d3436; margin-top:0;">Studio Mémorisation</h2>
+    <p style="color:#636e72;">Enregistre ta récitation !</p>
+    <select id="rec-verse-select" style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; font-weight:700; margin-bottom:15px;">
+      <option value="1">Verset 1</option>
+      <option value="2">Verset 2</option>
+      <option value="3">Verset 3</option>
+      <option value="4">Verset 4</option>
+    </select>
+    <div class="mic-big-btn" id="mic-trigger" onclick="toggleRecording()">🎤</div>
+    <div id="mic-status" style="font-weight:800; color:#b2bec3;">Appuie pour enregistrer</div>
+    <audio id="user-playback" controls style="width:100%; margin-top:15px; display:none;"></audio>
+    <button id="save-rec-btn" style="width:100%; background:var(--primary); color:white; padding:15px; border-radius:12px; border:none; font-weight:900; margin-top:15px; display:none;" onclick="saveRecord()">✅ Valider</button>
+    <button onclick="closeRecorder()" style="background:none; border:none; color:#aaa; font-weight:700; margin-top:15px;">Fermer</button>
+  </div>
+</div>
+
+<div class="fullscreen-modal quiz-bg" id="game-modal">
+  <div class="quiz-nav">
+    <button class="close-btn" onclick="closeGameHub()">✕ Quitter</button>
+    <div style="font-weight:900;">ZONE JEUX</div>
+  </div>
+  <div class="progress-track" id="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <div id="age-select-screen" class="grid-menu">
+    <div class="menu-card" onclick="selectAge('age6')" style="border-color:var(--lvl-1);">
+      <span class="menu-icon">🐣</span>
+      <div class="menu-title">Groupe Éveil</div>
+      <div class="menu-sub">Débutants</div>
+    </div>
+    <div class="menu-card" onclick="selectAge('age8')" style="border-color:var(--lvl-3);">
+      <span class="menu-icon">🦁</span>
+      <div class="menu-title">Groupe Chercheur</div>
+      <div class="menu-sub">Avancés</div>
+    </div>
+  </div>
+
+  <div id="level-select-screen" class="grid-menu" style="display:none;">
+    <div class="menu-card" onclick="selectLevel('vocab')" style="border-color:var(--lvl-1);">
+      <span class="menu-icon">📚</span>
+      <div class="menu-title">Vocabulaire</div>
+      <div class="menu-sub">Sens des mots</div>
+    </div>
+    <div class="menu-card" onclick="selectLevel('puzzle')" style="border-color:var(--lvl-2);">
+      <span class="menu-icon">🧩</span>
+      <div class="menu-title">Puzzle</div>
+      <div class="menu-sub">Ordre des versets</div>
+    </div>
+    <div class="menu-card" onclick="selectLevel('missing')" style="border-color:var(--lvl-3);">
+      <span class="menu-icon">🧐</span>
+      <div class="menu-title">Expert</div>
+      <div class="menu-sub">Mots manquants</div>
+    </div>
+  </div>
+
+  <div id="game-area" class="game-area">
+    <div id="question-box" class="question-box"></div>
+    <div id="options-grid" class="options-grid" style="display:none;"></div>
+    <div id="puzzle-area" class="puzzle-area">
+      <div style="margin-bottom:10px; font-size:0.85rem; color:#aaa; font-weight:700;">Début de la phrase ➡️</div>
+      <div id="puzzle-dropzone" class="puzzle-dropzone"></div>
+      <div id="puzzle-source" class="puzzle-source"></div>
+    </div>
+    <div id="correction-box" class="correction-box"></div>
+  </div>
+
+  <div id="level-complete">
+    <span class="neon-text">ما شاء الله</span>
+    <h2 style="margin:0; color:white;">MA SHA ALLAH !</h2>
+    <p style="color:white; opacity:0.8;">Niveau terminé avec succès.</p>
+    <button id="next-level-btn" class="game-btn" style="background:white; color:var(--quiz-bg); margin-top:20px; width:100%; z-index:999;" onclick="resetGame()">Menu</button>
+  </div>
+</div>
+
+<script>
+  // -------------------------------------------------------------
+  // FONT SIZE CONTROL LOGIC (NEW)
+  // -------------------------------------------------------------
+  let fontSizes = { ar: 32, tr: 16, fr: 16 }; 
+
+  function adjustSize(type, delta) {
+    fontSizes[type] += delta;
+    // Limites
+    if(fontSizes[type] < 10) fontSizes[type] = 10;
+    if(fontSizes[type] > 70) fontSizes[type] = 70;
+
+    if(type === 'ar') document.querySelectorAll('.ar-text').forEach(e => e.style.fontSize = fontSizes.ar + 'px');
+    if(type === 'tr') document.querySelectorAll('.tr-text').forEach(e => e.style.fontSize = fontSizes.tr + 'px');
+    if(type === 'fr') document.querySelectorAll('.fr-text').forEach(e => e.style.fontSize = fontSizes.fr + 'px');
+  }
+
+  // -------------------------------------------------------------
+  // DATA
+  // -------------------------------------------------------------
+  const gameData = {
+    age6: {
+      vocab: [
+        { q: "ٱلرُّومُ", tr: "Ar-Roum", a: "Les Romains", opts: [{t:"Les Romains",i:"🛡️"}, {t:"La Terre",i:"🌍"}, {t:"Le Livre",i:"📖"}, {t:"La Maison",i:"🏠"}] },
+        { q: "غُلِبَتِ", tr: "Ghoulibati", a: "Ont été vaincus", opts: [{t:"Ont été vaincus",i:"🏳️"}, {t:"Ont gagné",i:"🏆"}, {t:"Dorment",i:"🛌"}, {t:"Mangent",i:"🍎"}] },
+        { q: "ٱلۡأَرۡضِ", tr: "Al-Ard", a: "La Terre", opts: [{t:"La Terre",i:"🌍"}, {t:"Le Ciel",i:"☁️"}, {t:"La Mer",i:"🌊"}, {t:"Le Jardin",i:"🌳"}] },
+        { q: "يَفۡرَحُ", tr: "Yafrahou", a: "Se réjouir", opts: [{t:"Se réjouir",i:"😊"}, {t:"Pleurer",i:"😢"}, {t:"Dormir",i:"😴"}, {t:"Courir",i:"🏃"}] },
+        { q: "ٱلۡمُؤۡمِنُونَ", tr: "Al-Mouminoun", a: "Les Croyants", opts: [{t:"Les Croyants",i:"🤲"}, {t:"Les Arbres",i:"🌲"}, {t:"Les Oiseaux",i:"🐦"}, {t:"Les Autos",i:"🚗"}] },
+        { q: "سِنِينَ", tr: "Sinin", a: "Années", opts: [{t:"Années",i:"📅"}, {t:"Heures",i:"⌚"}, {t:"Jours",i:"☀️"}, {t:"Nuits",i:"🌙"}] }
+      ],
+      puzzle: [
+        { full: ["غُلِبَتِ", "ٱلرُّومُ"], tr: "Ghoulibati r-Roum" },
+        { full: ["فِيٓ", "أَدۡنَى", "ٱلۡأَرۡضِ"], tr: "Fi adna l-ardi" },
+        { full: ["وَهُم", "مِّنۢ", "بَعۡدِ", "غَلَبِهِمۡ", "سَيَغۡلِبُونَ"], tr: "Wa hum min ba'di ghalabihim..." },
+        { full: ["لِلَّهِ", "ٱلۡأَمۡرُ"], tr: "Lillahi l-amr" },
+        { full: ["وَيَوۡمَئِذٖ", "يَفۡرَحُ", "ٱلۡمُؤۡمِنُونَ"], tr: "Wa yawma-idhin yafrahu l-mouminoun" },
+        { full: ["مِن", "قَبۡلُ", "وَمِنۢ", "بَعۡدُۚ"], tr: "Min qablu wa min ba'du" }
+      ],
+      missing: [
+        { q: "غُلِبَتِ .......", tr: "Ghoulibati .......", a: "ٱلرُّومُ", opts: [{t:"ٱلرُّومُ",i:"🛡️"}, {t:"ٱلۡأَرۡضُ",i:"🌍"}] },
+        { q: "فِيٓ أَدۡنَى .......", tr: "Fi adna .......", a: "ٱلۡأَرۡضِ", opts: [{t:"ٱلۡأَرۡضِ",i:"🌍"}, {t:"ٱلسَّمَآءِ",i:"☁️"}] },
+        { q: "....... ٱلۡأَمۡرُ", tr: "....... l-amr", a: "لِلَّهِ", opts: [{t:"لِلَّهِ",i:"☝️"}, {t:"لِلنَّاسِ",i:"👥"}] },
+        { q: "وَيَوۡمَئِذٖ .......", tr: "Wa yawma-idhin .......", a: "يَفۡرَحُ", opts: [{t:"يَفۡرَحُ",i:"😊"}, {t:"يَبۡكِي",i:"😢"}] },
+        { q: "....... ٱلۡمُؤۡمِنُونَ", tr: "....... l-mouminoun", a: "يَفۡرَحُ", opts: [{t:"يَفۡرَحُ",i:"😊"}, {t:"يَنَامُ",i:"😴"}] },
+        { q: "فِي بِضۡعِ .......", tr: "Fi bid'i .......", a: "سِنِينَ", opts: [{t:"سِنِينَ",i:"📅"}, {t:"أَيَّامٍ",i:"☀️"}] }
+      ]
+    },
+    age8: {
+      vocab: [
+        { q: "غُلِبَتِ", tr: "Ghoulibati", a: "Ont été vaincus", opts: ["Ont gagné", "Ont été vaincus", "Ont voyagé", "Ont mangé"] },
+        { q: "ٱلرُّومُ", tr: "Ar-Roum", a: "Les Romains", opts: ["Les Perses", "Les Romains", "Les Croyants", "Les Grecs"] },
+        { q: "بِضۡعِ", tr: "Biḍ‘i", a: "3 à 9", opts: ["Beaucoup", "Un seul", "3 à 9", "100"] },
+        { q: "أَدۡنَى", tr: "Adna", a: "Voisin / Plus bas", opts: ["Plus haut", "Voisin / Plus bas", "Lointain", "Grand"] },
+        { q: "يَفۡرَحُ", tr: "Yafrahu", a: "Se réjouir", opts: ["Se réjouir", "Pleurer", "Travailler", "Dormir"] },
+        { q: "ٱلۡأَمۡرُ", tr: "Al-Amr", a: "Le Commandement", opts: ["Le Conseil", "Le Commandement", "L'Argent", "La Paix"] }
+      ],
+      puzzle: [
+        { full: ["غُلِبَتِ", "ٱلرُّومُ"], tr: "Ghoulibati r-Roum" },
+        { full: ["فِيٓ", "أَدۡنَى", "ٱلۡأَرۡضِ"], tr: "Fi adna l-ardi" },
+        { full: ["وَهُم", "مِّنۢ", "بَعۡدِ", "غَلَبِهِمۡ", "سَيَغۡلِبُونَ"], tr: "Wa hum min ba'di ghalabihim sayaghlibūn" },
+        { full: ["فِي", "بِضۡعِ", "سِنِينَ"], tr: "Fi bid'i sinin" },
+        { full: ["لِلَّهِ", "ٱلۡأَمۡرُ", "مِن", "قَبۡلُ", "وَمِنۢ", "بَعۡدُۚ"], tr: "Lillāhi l-amru min qablu wa min ba'du" },
+        { full: ["وَيَوۡمَئِذٖ", "يَفۡرَحُ", "ٱلۡمُؤۡمِنُونَ"], tr: "Wa yawma-idhin yafrahu l-mouminoun" }
+      ],
+      missing: [
+        { q: "غُلِبَتِ .......", tr: "Ghoulibati .......", a: "ٱلرُّومُ", opts: ["ٱلرُّومُ", "ٱلۡفُرۡسُ", "ٱلۡعَرَبُ"] },
+        { q: "فِي بِضۡعِ .......", tr: "Fi biḍ‘i .......", a: "سِنِينَ", opts: ["سِنِينَ", "أَيَّامٍ", "شُهُورٍ"] },
+        { q: "....... ٱلۡأَمۡرُ مِن قَبۡلُ", tr: "....... al-amru min qabl", a: "لِلَّهِ", opts: ["لِلَّهِ", "لِلنَّاسِ", "لِلْمَلِكِ"] },
+        { q: "وَيَوۡمَئِذٖ ....... ٱلۡمُؤۡمِنُونَ", tr: "Wa yawma-idhin ....... al-mouminoun", a: "يَفۡرَحُ", opts: ["يَفۡرَحُ", "يَحْزَنُ", "يَنَامُ"] },
+        { q: "وَهُم مِّنۢ ....... غَلَبِهِمۡ", tr: "Wa hum min ....... ghalabihim", a: "بَعۡدِ", opts: ["بَعۡدِ", "قَبْلِ", "مَعَ"] },
+        { q: "فِيٓ أَدۡنَى .......", tr: "Fi adna .......", a: "ٱلۡأَرۡضِ", opts: ["ٱلۡأَرۡضِ", "ٱلسَّمَآءِ", "ٱلۡبَحۡرِ"] }
+      ]
+    }
+  };
+
+  // -------------------------------------------------------------
+  // LOGIC
+  // -------------------------------------------------------------
+  let currentAge, currentLevel, currentQuestions = [], questionIdx = 0, isLocked = false;
+  const levelOrder = ['vocab', 'puzzle', 'missing'];
+  const screens = { age: document.getElementById('age-select-screen'), level: document.getElementById('level-select-screen'), game: document.getElementById('game-area'), win: document.getElementById('level-complete') };
+
+  function openGameHub() { if(currentAudio) stopAudio(); document.getElementById('game-modal').classList.add('open'); resetGame(); }
+  function closeGameHub() { document.getElementById('game-modal').classList.remove('open'); }
+  function resetGame() { 
+    screens.age.style.display='grid'; screens.level.style.display='none'; 
+    screens.game.style.display='none'; screens.win.style.display='none'; 
+    document.getElementById('progress-track').style.display='none'; 
+  }
+  function selectAge(a) { currentAge=a; screens.age.style.display='none'; screens.level.style.display='grid'; }
+  function selectLevel(l) { 
+    currentLevel=l; screens.level.style.display='none'; screens.game.style.display='flex'; screens.win.style.display='none';
+    document.getElementById('progress-track').style.display='block'; 
+    currentQuestions=[...gameData[currentAge][currentLevel]].sort(()=>Math.random()-0.5); 
+    questionIdx=0; loadQuestion(); 
+  }
+
+  function loadQuestion() {
+    if(questionIdx>=currentQuestions.length){ finishLevel(); return; }
+    document.getElementById('progress-fill').style.width=((questionIdx/currentQuestions.length)*100)+'%';
+    document.getElementById('correction-box').style.display='none'; isLocked=false;
+    const data=currentQuestions[questionIdx];
+    const qBox=document.getElementById('question-box');
+    const optGrid=document.getElementById('options-grid');
+    const puzArea=document.getElementById('puzzle-area');
+    qBox.innerHTML=''; optGrid.innerHTML=''; optGrid.style.display='none'; puzArea.style.display='none';
+
+    if(currentLevel==='puzzle') {
+      puzArea.style.display='block';
+      qBox.innerHTML=`<div class="q-tr-game" style="color:white; margin-bottom:10px;">${data.tr}</div>`;
+      const drop=document.getElementById('puzzle-dropzone'), src=document.getElementById('puzzle-source');
+      drop.innerHTML=''; src.innerHTML='';
+      let userIndices=[];
+      let pieces=data.full.map((w,i)=>({w,i}));
+      pieces.sort(()=>Math.random()-0.5).forEach(pObj=>{
+        const p=document.createElement('div'); p.className='puzzle-piece'; p.innerText=pObj.w; p.dataset.idx=pObj.i;
+        p.onclick=function(){
+          if(this.parentNode===src){ drop.appendChild(this); userIndices.push(parseInt(this.dataset.idx)); }
+          else{ src.appendChild(this); userIndices=userIndices.filter(i=>i!==parseInt(this.dataset.idx)); }
+          checkPuzzle(userIndices, data.full.length, drop);
+        };
+        src.appendChild(p);
+      });
+    } else {
+      optGrid.style.display='grid';
+      qBox.innerHTML=`<div class="q-ar">${data.q}</div><div class="q-tr-game">${data.tr}</div>`;
+      [...data.opts].sort(()=>Math.random()-0.5).forEach(opt=>{
+        const btn=document.createElement('button'); btn.className='game-btn';
+        let valText=(typeof opt==='object')?opt.t:opt;
+        btn.innerHTML=(typeof opt==='object')?`<span class="game-btn-icon">${opt.i}</span><span>${opt.t}</span>`:`<span>${opt}</span>`;
+        btn.onclick=()=>checkOption(btn, valText, data.a);
+        btn.dataset.val=valText; optGrid.appendChild(btn);
+      });
+    }
+  }
+
+  function checkPuzzle(uIdx, total, drop) {
+    if(uIdx.length===total) {
+      if(uIdx.every((v,i)=>v===i)) {
+        drop.style.borderColor="#2ecc71"; fireConfetti();
+        setTimeout(()=>{questionIdx++; loadQuestion(); drop.style.borderColor="rgba(255,255,255,0.3)";},1000);
+      } else {
+        drop.style.borderColor="#ff4757"; drop.animate([{transform:'translateX(0)'},{transform:'translateX(-10px)'},{transform:'translateX(10px)'},{transform:'translateX(0)'}],{duration:300});
+      }
+    }
+  }
+
+  function checkOption(btn, sel, corr) {
+    if(isLocked)return; isLocked=true;
+    if(sel===corr){ btn.classList.add('correct'); fireConfetti(); setTimeout(()=>{questionIdx++; loadQuestion();},1000); }
+    else {
+      btn.classList.add('wrong'); navigator.vibrate?.(300);
+      document.querySelectorAll('.game-btn').forEach(b=>{if(b.dataset.val===corr)b.classList.add('reveal')});
+      document.getElementById('correction-box').style.display='block';
+      document.getElementById('correction-box').innerText=`Correction : ${corr}`;
+      setTimeout(()=>{questionIdx++; loadQuestion();},2000);
+    }
+  }
+
+  function finishLevel(){ 
+    screens.game.style.display='none'; 
+    screens.win.style.display='flex'; 
+    document.getElementById('progress-fill').style.width='100%'; 
+    fireMassiveConfetti();
+    
+    // SMART FLOW
+    const btn = document.getElementById('next-level-btn');
+    const currentIdx = levelOrder.indexOf(currentLevel);
+    if(currentIdx < levelOrder.length - 1) {
+      const nextLevel = levelOrder[currentIdx + 1];
+      btn.innerText = "Jeu Suivant ➡";
+      btn.onclick = () => selectLevel(nextLevel);
+    } else {
+      btn.innerText = "Menu Principal 🏠";
+      btn.onclick = () => resetGame();
+    }
+  }
+
+  // AUDIO
+  let reciter="Minshawy_Teacher_128kbps", currentAudio=null, currentBtnId=null;
+  function changeReciter(v){reciter=v;stopAudio();}
+  function toggleLayer(c,b){ document.querySelectorAll('.'+c).forEach(e=>e.classList.toggle('d-none')); b.style.opacity=(b.style.opacity==="0.5")?"1":"0.5"; }
+  
+  function stopAudio(){
+    if(currentAudio){currentAudio.pause(); currentAudio=null;}
+    document.querySelectorAll('.play-btn').forEach(b=>{b.classList.remove('playing');b.innerText="▶";});
+    document.querySelectorAll('.verse-card').forEach(c=>c.classList.remove('active'));
+    currentBtnId=null;
+  }
+
+  function playAyah(s,a){
+    const btnId=`btn-${s}-${a}`;
+    if(currentAudio && currentBtnId===btnId){
+      if(currentAudio.paused){ 
+        currentAudio.play().catch(e=>console.log(e)); 
+        document.getElementById(btnId).innerText="⏸"; document.getElementById(btnId).classList.add('playing');
+      } else { 
+        currentAudio.pause(); 
+        document.getElementById(btnId).innerText="▶"; document.getElementById(btnId).classList.remove('playing');
+      }
+      return; 
+    }
+    stopAudio();
+    currentBtnId=btnId;
+    const btn=document.getElementById(btnId); if(btn){btn.innerText="⏸";btn.classList.add('playing');}
+    const card=document.getElementById(`card-${s}-${a}`); if(card)card.classList.add('active');
+    
+    const sStr=String(s).padStart(3,'0'), aStr=String(a).padStart(3,'0');
+    currentAudio=new Audio(`https://everyayah.com/data/${reciter}/${sStr}${aStr}.mp3`);
+    currentAudio.onended=()=>stopAudio();
+    currentAudio.play().catch(e=>{console.log("Auto-play prevented",e); stopAudio();});
+  }
+
+  // RECORDER
+  const recModal=document.getElementById('recorder-modal');
+  let mediaRecorder, audioChunks=[];
+  function openRecorder(){if(currentAudio)stopAudio();recModal.classList.add('open');}
+  function closeRecorder(){recModal.classList.remove('open');}
+  function toggleRecording(){
+    const btn=document.getElementById('mic-trigger'), stat=document.getElementById('mic-status');
+    if(!btn.classList.contains('recording')){
+      navigator.mediaDevices.getUserMedia({audio:true}).then(s=>{
+        mediaRecorder=new MediaRecorder(s); mediaRecorder.start(); audioChunks=[];
+        mediaRecorder.ondataavailable=e=>audioChunks.push(e.data);
+        mediaRecorder.onstop=()=>{
+          const u=URL.createObjectURL(new Blob(audioChunks,{type:'audio/mp3'}));
+          const p=document.getElementById('user-playback'); p.src=u; p.style.display='block';
+          document.getElementById('save-rec-btn').style.display='block'; s.getTracks().forEach(t=>t.stop());
+        };
+        btn.classList.add('recording'); status.innerText="Enregistrement..."; status.style.color="#ff4757";
+      }).catch(e=>alert("Micro bloqué"));
+    } else {
+      mediaRecorder.stop(); btn.classList.remove('recording'); stat.innerText="Écoute-toi"; stat.style.color="#b2bec3";
+    }
+  }
+  function saveRecord(){fireConfetti(); setTimeout(()=>{closeRecorder();alert("Bravo !");},1500);}
+  function fireConfetti(){confetti({particleCount:50,spread:60,origin:{y:0.7}});}
+  function fireMassiveConfetti(){
+    const end=Date.now()+3000; 
+    (function frame(){confetti({particleCount:5,angle:60,spread:55,origin:{x:0},colors:['#00ff88','#fdcb6e']});confetti({particleCount:5,angle:120,spread:55,origin:{x:1},colors:['#00ff88','#fdcb6e']});if(Date.now()<end)requestAnimationFrame(frame);}());
+  }
+</script>
+</body>
+</html>
