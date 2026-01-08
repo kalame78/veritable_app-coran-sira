@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sira Coranique — V20 (Al-'Alaq Premium)</title>
+  <title>Sira Coranique — V24 (Ar-Roum Premium)</title>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     /* -----------------------------------------------------------
-       CSS (DESIGN V17 - INTACT)
+       CSS (DESIGN V17 + FLIP CARDS + BIG FONTS)
        ----------------------------------------------------------- */
     @import url('https://cdn.jsdelivr.net/npm/kfgqpc-uthmanic-script-hafs-regular@1.0.0/index.min.css');
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka:wght@400;600&display=swap');
@@ -101,20 +101,69 @@
     .fab-story { background: #0984e3; border: 3px solid white; } .fab-quiz { background: #fdcb6e; border: 3px solid white; }
     .badge { background:#f1f2f6; color:#636e72; font-weight:900; padding:6px 12px; border-radius:12px; font-size:0.75rem; text-transform: uppercase; }
 
-    /* MODALS */
+    /* FLIP CARDS */
+    .flip-card {
+        background-color: transparent;
+        width: 100%;
+        max-width: 500px;
+        height: 420px; /* Un peu plus haut pour le texte */
+        perspective: 1000px;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 24px;
+        padding: 25px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .flip-card-front { background-color: white; color: #2d3436; }
+    .flip-card-back {
+        background-color: #f1f2f6;
+        color: #2d3436;
+        transform: rotateY(180deg);
+        border: 2px solid var(--primary);
+        text-align: left;
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+    .tap-hint { position: absolute; bottom: 15px; font-size: 0.8rem; color: #aaa; animation: pulse 2s infinite; }
+
+    /* MODALS & STORIES */
     .fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 300; display: none; flex-direction: column; overflow-y: auto; }
     .fullscreen-modal.open { display: flex; animation: fadeIn 0.3s; }
     .story-bg { background: var(--story-bg); color: white; align-items: center; padding: 20px; }
-    .story-card { background: white; color: #2d3436; width: 100%; max-width: 500px; border-radius: 24px; padding: 25px; margin-top: 15px; text-align: center; }
-    .story-img { font-size: 3.5rem; display: block; margin-bottom: 10px; }
-    .story-title { font-family: 'Fredoka'; font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; }
-    .story-text { font-size: 1rem; line-height: 1.6; color: #444; margin-bottom: 15px; text-align: left; }
     
-    .source-btn { background: transparent; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px; color: #7f8c8d; font-size: 0.7rem; font-weight: 700; cursor: pointer; margin-top: 10px; display:inline-flex; align-items:center; gap:5px; }
-    .source-content { display: none; background: #f1f2f6; padding: 10px; border-radius: 8px; margin-top: 10px; text-align: left; font-size: 0.8rem; border-left: 3px solid var(--primary); color:#333; }
-    .story-nav-btn { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; margin-top: 20px; }
+    .story-img { font-size: 4rem; display: block; margin-bottom: 20px; }
+    .story-title { font-family: 'Fredoka'; font-size: 1.6rem; color: var(--primary); margin-bottom: 15px; }
+    .story-text { font-size: 1.1rem; line-height: 1.6; color: #444; margin-bottom: 15px; text-align: left; width: 100%; }
     
-    /* QUIZ */
+    .source-content-back { font-size: 0.95rem; line-height: 1.6; color: #555; white-space: pre-line; }
+    /* Style spécial pour les citations coraniques dans les sources */
+    .source-content-back .ar-text { display: block; text-align: center; margin: 10px 0; color: var(--primary); font-size: 1.4rem; }
+    
+    .source-badge { background: var(--primary); color: white; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; margin-bottom: 10px; display: inline-block; }
+
+    .story-nav-btn { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; margin-top: 20px; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    
+    /* QUIZ & GAMES - CORRECTION POLICE */
     .quiz-bg { background: var(--quiz-bg); color: white; padding: 15px; align-items: center; }
     .quiz-nav { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px; }
     .game-area { width: 100%; max-width: 500px; display: none; flex-direction: column; align-items: center; padding-bottom: 40px; }
@@ -123,19 +172,50 @@
     .q-tr-game { font-family: 'Nunito'; font-size: 1rem; background: rgba(0,0,0,0.25); padding: 8px 14px; border-radius: 12px; display: inline-block; margin-top: 10px; }
     
     .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
-    .game-btn { background: #5f27cd; color: white; border: none; padding: 16px; border-radius: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #3c1585; min-height: 70px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    
+    /* GROSSISSEMENT BOUTONS REPONSES */
+    .game-btn { 
+        background: #5f27cd; 
+        color: white; 
+        border: none; 
+        padding: 16px; 
+        border-radius: 16px; 
+        font-weight: 800; 
+        cursor: pointer; 
+        box-shadow: 0 5px 0 #3c1585; 
+        min-height: 90px; /* Plus haut */
+        display:flex; 
+        flex-direction:column; 
+        align-items:center; 
+        justify-content:center;
+        font-size: 1.3rem; /* POLICE AGRANDIE */
+        line-height: 1.3;
+    }
+    .game-btn span { font-size: 1.3rem; }
     .game-btn.correct { background: var(--correct) !important; box-shadow: 0 5px 0 #219150; }
     .game-btn.wrong { background: var(--wrong) !important; box-shadow: 0 5px 0 #c0392b; opacity: 0.7; }
     
     .puzzle-dropzone { width: 100%; min-height: 100px; border: 3px dashed rgba(255,255,255,0.3); border-radius: 16px; display: flex; flex-wrap: wrap; direction: rtl !important; justify-content: flex-start; gap: 8px; padding: 10px; background: rgba(0,0,0,0.15); margin-bottom: 20px; }
     .puzzle-source { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; direction: rtl !important; }
-    .puzzle-piece { background: white; color: #2d3436; padding: 8px 12px; border-radius: 8px; font-family: 'KFGQPC Uthmanic Script HAFS Regular'; font-size: 1.3rem; cursor: pointer; }
+    
+    /* GROSSISSEMENT PUZZLE */
+    .puzzle-piece { 
+        background: white; 
+        color: #2d3436; 
+        padding: 10px 15px; 
+        border-radius: 10px; 
+        font-family: 'KFGQPC Uthmanic Script HAFS Regular'; 
+        font-size: 2rem; /* POLICE ARABE AGRANDIE */
+        cursor: pointer; 
+    }
     .correction-box { margin-top: 20px; background: rgba(255,255,255,0.15); padding: 15px; border-radius: 15px; color: #ffcccc; font-weight: 800; display: none; }
     
     #level-complete { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--quiz-bg); z-index:500; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
     .grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; width: 100%; max-width: 500px; margin-top: 20px; }
     .menu-card { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px 10px; text-align: center; cursor: pointer; border: 3px solid transparent; }
     .menu-icon { font-size: 2.5rem; display: block; margin-bottom: 5px; }
+    .menu-title { font-size: 1.2rem; font-weight: 800; } /* Titre menu plus gros */
+
     .progress-track { width: 100%; max-width: 500px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; margin-bottom: 20px; display: none; }
     .progress-fill { height: 100%; width: 0%; background: #00cec9; transition: width 0.5s ease; }
     .close-btn { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; opacity: 0.8; }
@@ -298,7 +378,7 @@
     <div class="menu-card" onclick="selectStoryAge('eveil')" style="background:white; color:#333;"><span class="menu-icon">🐣</span><div class="menu-title">Groupe Éveil</div></div>
     <div class="menu-card" onclick="selectStoryAge('chercheur')" style="background:white; color:#333;"><span class="menu-icon">🦁</span><div class="menu-title">Groupe Chercheur</div></div>
   </div>
-  <div id="story-container" style="width:100%; display:none; flex-direction:column; align-items:center;"></div>
+  <div id="story-container" style="width:100%; display:none; flex-direction:column; align-items:center; flex:1; justify-content:center;"></div>
 </div>
 
 <div class="fullscreen-modal quiz-bg" id="game-modal">
@@ -324,7 +404,7 @@
 <script>
   // ====================== DATA (BIBLIOTHEQUE) ======================
   const ModuleContent = {
-    // 1. AL-FIL (L'ÉLÉPHANT)
+    // 1. AL-FIL (L'ÉLÉPHANT) - REMASTERISÉ + SOURCES EXACTES
     "al-fil": {
       title: "Al-Fil (L'Éléphant)", surahId: 105,
       verses: [
@@ -336,16 +416,16 @@
       ],
       story: {
         eveil: [
-          { img:"👑", title:"Le Roi Jaloux", text:"Un roi méchant du Yémen, Abraha, était jaloux de la Kaaba à la Mecque. Il voulait que les gens viennent chez LUI.", sourceDetail:"Histoire des Arabes" },
-          { img:"🐘", title:"L'Armée", text:"Il a préparé une immense armée avec des éléphants géants pour détruire la Kaaba. Les Arabes avaient très peur.", sourceDetail:"Sira du Prophète" },
-          { img:"🛑", title:"Le Miracle", text:"Arrivé devant la Mecque, le grand éléphant (Mahmoud) s'est assis ! Il refusait d'avancer vers la Kaaba, mais il courait vers les autres directions.", sourceDetail:"Tafsir Ibn Kathir" },
-          { img:"🦅", title:"Les Oiseaux", text:"Allah a envoyé des petits oiseaux (Ababil). Ils ont jeté des petites pierres sur les méchants et ont sauvé la Maison d'Allah.", sourceDetail:"Coran 105:3-4" }
+          { img:"👑", title:"Le Roi Jaloux", text:"Il y avait un roi très fort au Yémen appelé Abraha. Il avait construit une église magnifique en or, mais il était très jaloux car tout le monde préférait aller à La Mecque pour tourner autour de la Kaaba, la petite maison d'Allah.", sourceDetail:"L’histoire d’Abraha, roi du Yémen, qui construit une église pour détourner les pèlerins de la Kaaba, est rapportée dans les sources classiques de la Sira et du tafsir :\n\n<span class='ar-text'>« بنى بصنعاء كنيسة لم ير مثلها في زمانها... ولست بمنته حتى أصرف إليها حج العرب »</span>\n(Tafsīr al-Qāsimī Maḥāsin al-Taʾwīl +4).\n\nLa jalousie d’Abraha et son projet de détruire la Kaaba sont bien établis." },
+          { img:"🐘", title:"L'Éléphant Géant", text:"Abraha était furieux ! Il a préparé une immense armée pour détruire la Kaaba. Il a pris avec lui un éléphant gigantesque appelé 'Mahmoud'. Les Arabes de la Mecque ont eu très peur et se sont sauvés dans les montagnes.", sourceDetail:"Abraha prépare une armée avec un éléphant géant nommé Mahmoud pour attaquer la Kaaba. Les habitants de La Mecque fuient dans les montagnes, ce qui est confirmé dans les récits :\n\n<span class='ar-text'>« وسار بجيشه ومعه الفيل... فلما وصل قريبا منها فر أهلها إلى الجبال وأسلموا له الكعبة »</span>\n(Al-Tashīl li-ʿulūm al-tanzīl +2).\n\nLe rôle de l’éléphant est central dans la sourate et la Sira." },
+          { img:"🛑", title:"L'Éléphant refuse !", text:"Arrivé devant la Mecque, quelque chose d'incroyable s'est passé. L'éléphant Mahmoud s'est assis ! Les soldats le tapaient pour qu'il avance vers la Kaaba, mais il refusait. Par contre, si on le tournait vers le Yémen, il courait !", sourceDetail:"L’épisode où l’éléphant refuse d’avancer vers la Kaaba, mais se dirige vers le Yémen, est rapporté dans les tafsirs et la Sira :\n\n<span class='ar-text'>« فلما وجهوه إلى الكعبة برك ولم يتحرك، وإذا وجهوه إلى غيرها انطلق »</span>\n(Fatḥ al-Raḥmān fī tafsīr al-Qurʾān +1).\n\nCe détail est authentique et souvent cité pour montrer la protection divine." },
+          { img:"🦅", title:"Les Oiseaux Soldats", text:"Soudain, le ciel est devenu noir. Allah a envoyé des milliers d'oiseaux (Ababil). Chaque oiseau portait trois petites pierres d'argile brûlante. Ils les ont lâchées sur l'armée d'Abraha et la Kaaba a été sauvée !", sourceDetail:"La description des oiseaux Ababil envoyés par Allah, portant des pierres d’argile brûlante, est directement tirée du Coran :\n\n<span class='ar-text'>﴾وأرسل عليهم طيرا أبابيل * ترميهم بحجارة من سجيل﴿</span>\n(Marāḥ Labīd li-kashf maʿnā al-Qurʾā... +5).\n\nLes tafsirs précisent que chaque oiseau portait trois pierres (Marāḥ Labīd li-kashf maʿnā al-Qurʾā... +1)." }
         ],
         chercheur: [
-          { img:"📅", title:"L'Année de l'Éléphant", text:"Cet événement a eu lieu en 570 ap. J.C. C'est une date très importante car c'est l'année de naissance du Prophète Muhammad ﷺ.", sourceDetail:"Contexte Historique" },
-          { img:"👴", title:"Abdul-Muttalib", text:"Le grand-père du Prophète a dit à Abraha : 'Je suis le seigneur des chameaux, mais la Maison (Kaaba) a un Seigneur (Allah) qui la protégera.'", sourceDetail:"Ibn Hisham" },
-          { img:"🧱", title:"Sijjil", text:"Les pierres étaient en argile cuite (Sijjil). Chaque pierre portait le nom du soldat qu'elle devait toucher. C'était une punition divine précise.", sourceDetail:"Tafsir Al-Qurtubi" },
-          { img:"🕋", title:"La Protection", text:"Allah a montré qu'Il protège Sa maison. Même sans prophète (à ce moment-là), Allah ne laisse pas le faux détruire le sacré.", sourceDetail:"Leçon Théologique" }
+          { img:"📅", title:"L'Année de l'Éléphant", text:"Cet événement s'est passé en l'an 570. C'est une année très spéciale car c'est l'année de naissance du Prophète Muhammad ﷺ. Allah a protégé la ville sainte pour préparer l'arrivée de Son dernier Messager.", sourceDetail:"L’événement a eu lieu en 570, année de naissance du Prophète ﷺ, appelée « l’Année de l’Éléphant » :\n\n<span class='ar-text'>« فكانوا يقولون: حدث هذا عام الفيل أو قبله أو بعده. ومن ذلك ما عرف من مولد النبى ﷺ فى عام الفيل على أشهر الأقوال »</span>\n(Tārīkh nuzūl al-Qurʾān +1)." },
+          { img:"🕋", title:"Le Seigneur de la Maison", text:"Le grand-père du Prophète, Abdul-Muttalib, est allé voir Abraha pour réclamer ses chameaux volés. Abraha a ri : 'Tu t'inquiètes pour tes chameaux et pas pour ta Kaaba ?'. Abdul-Muttalib a répondu : 'Je suis le seigneur des chameaux, mais La Maison a un Seigneur (Allah) qui la protégera.'", sourceDetail:"Le dialogue entre Abdul-Muttalib et Abraha est rapporté dans la Sira :\n\n<span class='ar-text'>« أنا رب الإبل، وللبيت رب يحميه »</span>\n(Fatḥ al-Raḥmān fī tafsīr al-Qurʾān +1).\n\nCette réponse est une leçon de tawakkul (confiance en Allah)." },
+          { img:"🧱", title:"Sijjil (Argile)", text:"Le Coran dit que les pierres étaient en 'Sijjil' (argile cuite). Les savants disent que chaque pierre était marquée avec le nom du soldat qu'elle devait toucher. C'était une punition chirurgicale et divine, impossible à éviter.", sourceDetail:"Le Coran mentionne les pierres de « Sijjil » :\n\n<span class='ar-text'>﴾ترميهم بحجارة من سجيل﴿</span>\n(Marāḥ Labīd li-kashf maʿnā al-Qurʾā... +5).\n\nLes savants expliquent que chaque pierre était marquée pour sa cible (Al-nukat al-dālla ʿalā al-bayān fī ...)." },
+          { img:"🤲", title:"Le Tawakkul", text:"Pourquoi Allah n'a-t-Il pas envoyé la foudre ? Pour montrer que même des petits oiseaux peuvent vaincre des éléphants géants si Allah le veut. C'est une leçon pour nous : la force ne dépend pas de la taille des muscles, mais de l'aide d'Allah.", sourceDetail:"La leçon sur la puissance d’Allah, qui utilise de petits oiseaux pour vaincre une armée d’éléphants, est un enseignement central de la sourate :\n\n<span class='ar-text'>« وفيها مع ذلك عجائب من قدرة الله وشدة عقابه »</span>\n(Al-Tashīl li-ʿulūm al-tanzīl +3).\n\nCela illustre parfaitement le tawakkul." }
         ]
       },
       games: {
@@ -400,7 +480,7 @@
       }
     },
 
-    // 2. AL-ALAQ (LA RÉVÉLATION) - VERSION PREMIUM VALIDEE
+    // 2. AL-ALAQ (LA RÉVÉLATION) - PREMIUM + SOURCES
     "al-alaq": {
       title: "Al-'Alaq (L'Adhérence)", surahId: 96,
       verses: [
@@ -412,16 +492,16 @@
       ],
       story: {
         eveil: [
-          { img:"⛰️", title:"La Grotte Silencieuse", text:"Le Prophète Muhammad ﷺ n’aimait pas les mauvaises choses que faisaient les gens de La Mecque (les idoles). Il aimait être seul pour penser à Allah. Il montait tout en haut de la montagne de la Lumière (Jabal Al-Nour), dans une petite grotte appelée Hira. Là-bas, tout était calme et sombre. Il restait plusieurs nuits à réfléchir et à prier, loin du bruit de la ville.", sourceDetail:"Sources : Al-Omari [16], Rashid Rida [3]" },
-          { img:"✨", title:"L’Ange et le Câlin", text:"Une nuit, alors qu’il était dans la grotte, l’ange Jibril (Gabriel) est soudain apparu ! Il a pris le Prophète dans ses bras et l’a serré très fort, jusqu’à ce qu’il ait du mal à respirer. L’ange lui a dit : « Lis ! » (Iqra). Le Prophète, effrayé, a répondu : « Je ne sais pas lire ! » L’ange l’a serré trois fois et a répété : « Lis ! »", sourceDetail:"Sources : Al-Wahy Al-Muhammadi [3]" },
-          { img:"🏃", title:"Cours vite à la maison !", text:"Le Prophète a eu très peur ! Il est vite rentré chez lui, le cœur battant très fort. Il tremblait tellement qu’il a demandé à sa femme Khadija : « Couvrez-moi ! Couvrez-moi ! » (Zammilouni). Khadija l’a enveloppé dans une couverture pour le rassurer.", sourceDetail:"Sources : Sahih Bukhari, Al-Omari [16]" },
-          { img:"🏠", title:"Le Réconfort de Khadija", text:"Khadija (ra) a été très gentille et courageuse. Elle a rassuré le Prophète en lui disant : « N’aie pas peur. Allah ne t’abandonnera jamais, car tu es gentil avec tout le monde et tu aides les pauvres. » Elle a été la première personne à croire en lui.", sourceDetail:"Sources : Kanz al-Ummal [10], Zino [20]" }
+          { img:"⛰️", title:"La Grotte Silencieuse", text:"Le Prophète Muhammad ﷺ aimait se retirer dans la grotte de Hira, sur la montagne près de La Mecque, pour méditer et prier Allah, loin des idoles et des mauvaises actions de son peuple.", sourceDetail:"Le Prophète aimait s'isoler pour adorer Allah :\n\n(تفسير المراغي [2])." },
+          { img:"✨", title:"L’Ange et le Câlin", text:"Un jour, alors qu’il était dans la grotte, l’ange Jibril est venu et lui a dit : « Lis ! » (Iqra). Le Prophète a répondu : « Je ne sais pas lire ! » L’ange l’a alors serré très fort, puis a répété l’ordre trois fois.", sourceDetail:"L'ordre de lire et l'étreinte de l'ange :\n\n<span class='ar-text'>اقرأ باسم ربك الذي خلق</span>\n(معاني القرآن وإعرابه [1]).\n(تفسير المراغي [2])." },
+          { img:"🏃", title:"Cours vite à la maison !", text:"Effrayé par cette expérience, le Prophète est rentré chez lui en courant, le cœur battant, et a demandé à sa femme Khadija de le couvrir.", sourceDetail:"Le retour précipité vers la maison :\n\n(تفسير العثيمين [5])." },
+          { img:"🏠", title:"Le Réconfort de Khadija", text:"Khadija l’a rassuré et lui a dit qu’Allah ne l’abandonnerait jamais, car il était honnête et aidait les pauvres.", sourceDetail:"Le soutien de Khadija :\n\n(تفسير المراغي [2])." }
         ],
         chercheur: [
-          { img:"🩸", title:"Miracle Scientifique", text:"Le mot 'Alaq (عَلَقٍ) a 3 sens en arabe : sangsue, chose suspendue, et caillot de sang. C'est exactement l'apparence de l'embryon humain à ce stade. Un miracle décrit il y a 1400 ans.", sourceDetail:"Dr. Keith Moore (Embryologiste) & Tafsir." },
-          { img:"✍️", title:"Le Paradoxe", text:"Le premier ordre d'Allah est 'Lis' (Iqra), donné à un homme qui ne savait ni lire ni écrire (Illettré/Ummi). C'est la preuve que le Coran ne vient pas de lui.", sourceDetail:"Preuve de la Prophétie." },
-          { img:"📜", title:"Waraqa Ibn Nawfal", text:"Khadija l'a emmené voir son cousin Waraqa, un vieux sage chrétien. Waraqa a pleuré et dit : 'C'est le Namous (La Loi/L'Ange) qui est venu à Moussa ! Tu es le Prophète de cette nation.'", sourceDetail:"Sahih Bukhari - Hadith 3." },
-          { img:"🦁", title:"La Prédiction", text:"Waraqa a aussi prévenu : 'Ton peuple te chassera.' Le Prophète était choqué : 'Vont-ils me chasser ?'. Waraqa répondit : 'Jamais un homme n'est venu avec ce message sans être combattu.'", sourceDetail:"Début des épreuves (Sira Ibn Hisham)." }
+          { img:"🩸", title:"Miracle Scientifique", text:"Allah a révélé : « Il a créé l’homme d’une adhérence » ('Alaq). Le mot « ‘alaq » désigne un caillot de sang accroché, ce qui correspond à la première étape de la création de l’être humain.", sourceDetail:"Le miracle de la création :\n\n<span class='ar-text'>خلق الإنسان من علق</span>\n(التفسير المنير [8]).\n(تفسير الهدايه إلى بلوغ النهايه [15])." },
+          { img:"✍️", title:"Le Savoir et le Calame", text:"Allah a aussi dit : « Celui qui a enseigné par le calame ». Cela montre l’importance de la connaissance et de l’écriture dans l’Islam, dès les premiers mots révélés.", sourceDetail:"L'importance de la science :\n\n<span class='ar-text'>الذي علم بالقلم</span>\n(معاني القرآن وإعرابه [1]).\n(مباحث في علوم القرآن [13])." },
+          { img:"📜", title:"La Première Révélation", text:"Les savants sont unanimes : les cinq premiers versets de la sourate Al-‘Alaq sont les tout premiers mots révélés au Prophète Muhammad ﷺ dans la grotte de Hira.", sourceDetail:"Consensus des savants :\n\n(المحرر الوجيز في تفسير الكتاب العزيز [4]).\n(زاد المسير [11]).\n(تفسير الميزان [9])." },
+          { img:"🌍", title:"Message Universel", text:"Cette révélation marque le début d’une nouvelle ère pour l’humanité, où Allah invite les hommes à apprendre, à réfléchir et à se rapprocher de Lui.", sourceDetail:"Le début de la mission :\n\n(مباحث في علوم القرآن [13])." }
         ]
       },
       games: {
@@ -465,7 +545,7 @@
             {full:["عَلَّمَ","ٱلۡإِنسَٰنَ","مَا","لَمۡ","يَعۡلَمۡ"],tr:"Verset 5"}
           ],
           missing: [
-            {q:"....... بِٱسۡمِ رَبِّكَ ٱلَّذِي خَلَقَ",tr:"... bismi rabbika...",a:"ٱقۡرَأۡ",opts:["ٱقۡرَأۡ","قُلۡ"]},
+            {q:"....... بِٱسۡمِ رَبِّكَ ٱلَّذِي خَلَقَ",tr:"... bismi rabbika...",a:"ٱقۡرَأۡ",opts:["ٱقۡرَأۡ","قُمْ"]},
             {q:"ٱقۡرَأۡ وَرَبُّكَ .......",tr:"Iqra' wa rabbuka...",a:"ٱلۡأَكۡرَمُ",opts:["ٱلۡأَكۡرَمُ","ٱلْعَظِيمُ"]},
             {q:"ٱلَّذِي عَلَّمَ .......",tr:"Alladhi 'allama...",a:"بِٱلۡقَلَمِ",opts:["بِٱلۡقَلَمِ","بِٱلْوَحْيِ"]},
             {q:"عَلَّمَ ٱلۡإِنسَٰنَ مَا لَمۡ .......",tr:"... ma lam...",a:"يَعۡلَمۡ",opts:["يَعۡلَمۡ","يَفْهَمۡ"]},
@@ -475,7 +555,7 @@
       }
     },
 
-    // 5. AR-ROUM (LES ROMAINS)
+    // 5. AR-ROUM (LES ROMAINS) - PREMIUM + SOURCES
     "ar-rum": {
       title: "Ar-Rum (Les Romains)", surahId: 30,
       verses: [
@@ -486,17 +566,16 @@
       ],
       story: {
         eveil: [
-          { img:"⚔️", title:"La Guerre", text:"Il y a longtemps, deux grands pays se faisaient la guerre : les Romains et les Perses. Les Perses étaient très forts et ont gagné une grande bataille.", sourceDetail:"Contexte Historique 614 ap. J.C" },
-          { img:"😢", title:"La Tristesse", text:"À la Mecque, les croyants étaient tristes. Les méchants se moquaient d'eux : 'Vos amis les Romains ont perdu, vous allez perdre aussi !'", sourceDetail:"Tafsir Ibn Kathir" },
-          { img:"✨", title:"La Promesse", text:"Mais Allah a envoyé le Prophète ﷺ pour dire : 'Ne soyez pas tristes ! Dans quelques années, les Romains vont gagner !' C'était une promesse d'Allah.", sourceDetail:"Coran 30:2-4" },
-          { img:"🏆", title:"La Victoire", text:"Et c'est arrivé ! Quelques années plus tard, les Romains ont gagné. Allah dit toujours la vérité et aide les croyants.", sourceDetail:"Histoire : Coïncide avec la bataille de Badr." }
+          { img:"⚔️", title:"La Grande Bataille", text:"Il y a très longtemps, il y avait deux super-pays qui se faisaient la guerre : les Romains (chrétiens) et les Perses (adorateurs du feu). Les Perses ont attaqué très fort et ont gagné ! Ils ont pris toutes les terres des Romains.", sourceDetail:"Il y avait entre les Perses et les Romains des guerres. Les Perses ont vaincu les Romains, ce qui a attristé les musulmans.\n(تذكرة الأريب في تفسير الغريب، ابن الجوزي [1])." },
+          { img:"😢", title:"Les Moqueries", text:"À La Mecque, les méchants (Quraysh) se moquaient des Musulmans : « Regardez ! Nos amis les Perses ont gagné ! Nous aussi, nous allons bientôt vous écraser ! ». Le Prophète ﷺ et les compagnons étaient tristes.", sourceDetail:"Les polythéistes de La Mecque se sont réjouis de la victoire des Perses et ont dit aux musulmans : “Si vous nous combattez, nous vous vaincrons !”\n(فتح الرحمن في تفسير القرآن، مجير الدين الحنبلي [5])." },
+          { img:"✨", title:"La Promesse d'Allah", text:"Mais Allah a envoyé l'Ange Jibril avec une nouvelle incroyable pour rassurer le Prophète : « Ne sois pas triste. Les Romains ont perdu... MAIS dans quelques années seulement, ils vont gagner à nouveau ! ».", sourceDetail:"Allah a révélé :\n<span class='ar-text'>غلبت الروم ... سيغلبون في بضع سنين</span>\n(Les Romains ont été vaincus, mais ils seront victorieux).\n(التبيان تفسير غريب القرآن، ابن الهائم [2])." },
+          { img:"🏆", title:"La Victoire Arrive !", text:"Et c'est arrivé ! Exactement 7 ans après, comme Allah l'avait dit, les Romains sont devenus forts et ont battu les Perses. Le même jour, les Musulmans ont gagné leur première grande bataille (Badr).", sourceDetail:"La victoire des Romains est arrivée exactement sept ans après leur défaite, comme Allah l’avait promis.\n(الموسوعة القرآنية، إبراهيم الإبياري [14]).\n(تفسير ابن كثير [10])." }
         ],
         chercheur: [
-          { img:"⚔️", title:"Le Contexte Géopolitique", text:"Les Perses (Sassanides) ont écrasé les Romains (Byzantins) et ont même pris Jérusalem. C'était un choc mondial !", sourceDetail:"Ibn Kathir (Tafsir Ar-Rum) : Les Perses dominaient tout le Proche-Orient vers 614-615." },
-          { img:"😧", title:"Le Choc à la Mecque", text:"Les polythéistes de la Mecque disaient aux Compagnons : 'Les adorateurs du feu (Perses) ont battu les Gens du Livre (Romains). Nous aussi, nous vous battrons !'", sourceDetail:"Jami` at-Tirmidhi 3193 : Les mécréants aimaient voir les Perses gagner." },
-          { img:"🤝", title:"Le Pari (Al-Mouqabala)", text:"Abu Bakr (ra) était si sûr de la révélation qu'il a fait un pari avec Ubayy bin Khalaf : 100 chameaux que les Romains gagneront !", sourceDetail:"At-Tirmidhi 3193 (Sahih) : C'était avant l'interdiction des jeux de hasard." },
-          { img:"⏳", title:"La Définition de 'Bid'", text:"Le Coran utilise le mot 'Bid'i Sinin'. En arabe pur, cela signifie entre 3 et 9 ans. La prophétie était donc très précise.", sourceDetail:"Linguistique Arabe : Bid' (بضع) désigne un nombre de 3 à 9." },
-          { img:"🚫", title:"L'Aumône (Sadaqah)", text:"Abu Bakr a gagné le pari ! Mais le jeu de hasard venait d'être interdit. Le Prophète ﷺ lui a dit : 'C'est un gain illicite (Suh't), donne-le aux pauvres.'", sourceDetail:"At-Tirmidhi : L'Islam interdit de profiter des gains de paris." }
+          { img:"🌍", title:"Le Choc Mondial", text:"En l'an 614, l'Empire Perse (Sassanide) a écrasé l'Empire Romain (Byzantin). Ils ont même capturé Jérusalem ! C'était un choc immense. Les païens de La Mecque jubilaient, tandis que les Musulmans ressentaient de la peine pour les Chrétiens.", sourceDetail:"En 614, l’Empire Perse a écrasé l’Empire Romain. Les polythéistes étaient heureux, alors que les musulmans étaient tristes pour les gens du Livre.\n(المحرر الوجيز في تفسير الكتاب العزيز [3]).\n(زاد المسير [15])." },
+          { img:"🐪", title:"Le Pari d'Abou Bakr", text:"La prophétie semblait si folle que l'un des chefs ennemis, Ubayy ibn Khalaf, a défié Abou Bakr (ra). Ils ont fait un pari de 100 chameaux ! Abou Bakr était sûr que la parole d'Allah se réaliserait.", sourceDetail:"Abou Bakr a parié avec les polythéistes sur la victoire future des Romains. Ce pari a eu lieu avant l’interdiction des jeux de hasard.\n(فتاوى الشبكة الإسلامية [17]).\n(تفسير العز بن عبد السلام [18])." },
+          { img:"⏳", title:"Le Code Secret 'Bid'", text:"Dans le verset, Allah utilise un mot arabe très précis : 'Bid'i sinin'. En arabe pur, 'Bid'' désigne strictement un chiffre entre 3 et 9. La victoire est arrivée exactement la 7ème année. Une précision divine !", sourceDetail:"Le mot “بضع” (bid‘) dans le Coran désigne un nombre entre trois et neuf. La victoire est arrivée la septième année.\n(التبيان تفسير غريب القرآن، ابن الهائم [2])." },
+          { img:"🎉", title:"Une Double Victoire", text:"La prophétie s'est réalisée lors de la bataille de Ninive en 627. Ce jour-là, les croyants ont eu deux joies : la victoire des Romains et la victoire des Musulmans à Badr.", sourceDetail:"La prophétie s’est réalisée lors de la bataille de Ninive, et le même jour, les musulmans ont remporté la bataille de Badr.\n<span class='ar-text'>ويومئذ يفرح المؤمنون بنصر الله</span>\n(تفسير ابن كثير [10])." }
         ]
       },
       games: {
@@ -597,27 +676,73 @@
     currentAudio.onended=()=>stopAudio(); currentAudio.play().catch(e=>stopAudio());
   }
 
-  // --- STORY ---
+  // --- STORY ENGINE AVEC FLIP CARD & SWIPE ---
   let currentStoryType='eveil', storyIdx=0;
+  
   function openStoryHub(){if(currentAudio)stopAudio();document.getElementById('story-modal').classList.add('open');document.getElementById('story-age-select').style.display='grid';document.getElementById('story-container').style.display='none';}
   function closeStory(){document.getElementById('story-modal').classList.remove('open');}
   function selectStoryAge(t){currentStoryType=t;document.getElementById('story-age-select').style.display='none';document.getElementById('story-container').style.display='flex';storyIdx=0;renderStory();}
+  
   function renderStory(){
     const list = currentData.story[currentStoryType];
     if(!list || list.length===0){document.getElementById('story-container').innerHTML="<p style='color:white;'>Bientôt...</p>";return;}
+    
+    if(storyIdx >= list.length) { closeStory(); return; }
+    if(storyIdx < 0) { storyIdx = 0; return; }
+
     const data = list[storyIdx];
     const btnText = (storyIdx < list.length-1) ? "Suivant ➡" : "Terminer ✅";
     const btnAction = (storyIdx < list.length-1) ? "nextStory()" : "closeStory()";
-    document.getElementById('story-container').innerHTML = `
-      <div class="story-card">
-        <span class="story-img">${data.img}</span><div class="story-title">${data.title}</div><div class="story-text">${data.text}</div>
-        <button class="source-btn" onclick="toggleSource(this)">🔍 Source</button><div class="source-content">${data.sourceDetail}</div>
+    
+    // CONSTRUCTION DE LA FLIP CARD
+    const container = document.getElementById('story-container');
+    container.innerHTML = `
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <span class="story-img">${data.img}</span>
+            <div class="story-title">${data.title}</div>
+            <div class="story-text">${data.text}</div>
+            <div class="tap-hint">👆 Touche pour voir la source</div>
+          </div>
+          <div class="flip-card-back">
+            <span class="source-badge">📚 SOURCES</span>
+            <div class="source-content-back">${data.sourceDetail}</div>
+          </div>
+        </div>
       </div>
       <button class="story-nav-btn" onclick="${btnAction}">${btnText}</button>
+      <div style="color:rgba(255,255,255,0.5); font-size:0.8rem; margin-top:10px;">${storyIdx + 1} / ${list.length}</div>
     `;
   }
+
   function nextStory(){storyIdx++;renderStory();}
-  function toggleSource(btn){const c=btn.nextElementSibling; if(c.style.display==="block"){c.style.display="none";btn.innerHTML="🔍 Source";}else{c.style.display="block";btn.innerHTML="❌ Fermer";}}
+  function prevStory(){if(storyIdx>0){storyIdx--;renderStory();}}
+
+  // --- GESTION DU SWIPE (MOBILE) ---
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const storyContainer = document.getElementById('story-container');
+
+  storyContainer.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  storyContainer.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+
+  function handleSwipe() {
+    if (touchStartX - touchEndX > 50) {
+        // Swipe Gauche (Suivant)
+        nextStory();
+    }
+    if (touchEndX - touchStartX > 50) {
+        // Swipe Droite (Précédent)
+        prevStory();
+    }
+  }
 
   // --- GAMES ENGINE ---
   let currentAge, currentLevel, currentQuestions=[], questionIdx=0;
