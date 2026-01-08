@@ -3,115 +3,249 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sira Coranique — V11 Sira Integration</title>
+  <title>Sira Coranique — V17 Final</title>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
-    /* ... (CSS RESTE IDENTIQUE AUX VERSIONS PRÉCÉDENTES - Optimisé V9) ... */
+    /* -----------------------------------------------------------
+       1. CSS (DESIGN & LAYOUT) - TON DESIGN INTACT
+       ----------------------------------------------------------- */
     @import url('https://cdn.jsdelivr.net/npm/kfgqpc-uthmanic-script-hafs-regular@1.0.0/index.min.css');
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka:wght@400;600&display=swap');
 
-    :root { --primary: #6C5CE7; --bg-color: #dfe6e9; --card-bg: #ffffff; --quiz-bg: #2c0b56; --story-bg: #2d3436; --lvl-1: #00b894; --lvl-2: #0984e3; --lvl-3: #d63031; --correct: #2ecc71; --wrong: #ff4757; --neon-glow: #00ff88; --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    :root {
+      --primary: #6C5CE7; --bg-body: #F0F3F8; --card-bg: #ffffff;
+      --th-mekka: #a29bfe; --th-trial: #ff7675; --th-hope: #fdcb6e; --th-medina: #00cec9; --th-win: #55efc4;
+      --card-shadow: 0 6px 0 rgba(0,0,0,0.05);
+      --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --quiz-bg: #2c0b56; --story-bg: #2d3436; --correct: #2ecc71; --wrong: #ff4757;
+    }
+
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { margin: 0; background: var(--bg-color) radial-gradient(#b2bec3 15%, transparent 16%) 0 0 / 24px 24px; font-family: 'Nunito', sans-serif; padding-bottom: 120px; min-height: 100vh; }
-    .app-container { width: 100%; max-width: 800px; margin: 0 auto; padding: 15px; }
-    @media (min-width: 801px) { .app-container { margin-top: 30px; background: rgba(255,255,255,0.4); border-radius: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); padding: 40px; } }
+    body { margin: 0; background: var(--bg-body); font-family: 'Nunito', sans-serif; padding-bottom: 80px; min-height: 100vh; color: #2d3436; }
+    .app-container { width: 100%; max-width: 650px; margin: 0 auto; padding: 15px; }
+    .d-none { display: none !important; }
 
-    /* UI COMPONENTS */
-    .header-box { background: linear-gradient(135deg, var(--primary), #4834d4); border-radius: 24px; padding: 20px; color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 15px; text-align: center; }
-    .header-title { font-family: 'Fredoka', sans-serif; font-size: 1.8rem; margin: 0; }
-    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 10px; }
-    .font-toolbar { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 25px; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 16px; }
-    .tool-btn { background: white; border: 2px solid #dfe6e9; border-radius: 14px; padding: 10px 16px; font-weight: 800; color: #636e72; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; transition: 0.2s; }
-    .tool-btn:hover, .tool-btn.active { border-color: var(--primary); color: var(--primary); background: #fdfdff; transform: translateY(-2px); }
-    .reciter-select { border: none; background: transparent; font-family: 'Nunito'; font-weight: 800; color: #2d3436; outline: none; cursor: pointer; font-size: 0.9rem; }
-    .mini-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #dfe6e9; background: white; font-weight: 900; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-    .mini-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    /* HEADER */
+    .header-box {
+      background: linear-gradient(135deg, #6C5CE7, #a29bfe); border-radius: 30px; padding: 25px 20px; color: white;
+      box-shadow: 0 10px 25px rgba(108, 92, 231, 0.3); margin-bottom: 30px; text-align: center; position: relative; overflow: hidden;
+    }
+    .header-title { font-family: 'Fredoka', sans-serif; font-size: 1.6rem; margin: 0; position:relative; z-index:2; text-transform: uppercase; line-height: 1.3; }
+    .header-sub { font-size: 0.9rem; opacity: 0.9; margin-top: 5px; position:relative; z-index:2; font-weight: bold; }
 
-    /* CARDS */
-    .verse-card { background: var(--card-bg); border-radius: 24px; padding: 20px; border-bottom: 5px solid #dfe6e9; margin-bottom: 15px; transition: transform 0.3s var(--bounce); }
+    /* TIMELINE */
+    .timeline-container { position: relative; padding-left: 20px; }
+    .timeline-line {
+      position: absolute; left: 29px; top: 20px; bottom: 0; width: 4px;
+      background-image: linear-gradient(to bottom, #dfe6e9 50%, transparent 50%); background-size: 4px 20px; z-index: 0;
+    }
+    .timeline-section { margin-bottom: 40px; position: relative; z-index: 1; }
+    .section-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+    .section-number {
+      width: 40px; height: 40px; background: white; color: var(--primary); border: 3px solid var(--primary);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'Fredoka'; font-size: 1.1rem; font-weight: 700; box-shadow: 0 4px 0 rgba(0,0,0,0.1); flex-shrink: 0;
+    }
+    .section-title { font-family: 'Fredoka'; font-size: 1.1rem; margin: 0; }
+    .section-desc { font-size: 0.8rem; color: #636e72; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* HUB CARDS */
+    .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; margin-left: 15px; }
+    .hub-card {
+      background: white; border-radius: 20px; padding: 15px; text-align: center; cursor: pointer; position: relative;
+      transition: all 0.2s var(--bounce); display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 120px; border: 2px solid transparent; box-shadow: var(--card-shadow);
+    }
+    .hub-card:active { transform: scale(0.96); }
+    .hub-card.locked { opacity: 0.7; background: #f1f2f6; border-bottom: 4px solid #dfe6e9; filter: grayscale(0.9); cursor: not-allowed; }
+    
+    .th-mekka { border-bottom: 5px solid var(--th-mekka); } .th-mekka .hub-icon { color: var(--th-mekka); }
+    .th-trial { border-bottom: 5px solid var(--th-trial); } .th-trial .hub-icon { color: var(--th-trial); }
+    .th-hope { border-bottom: 5px solid var(--th-hope); } .th-hope .hub-icon { color: #f39c12; }
+    .th-medina { border-bottom: 5px solid var(--th-medina); } .th-medina .hub-icon { color: var(--th-medina); }
+    .th-win { border-bottom: 5px solid var(--th-win); } .th-win .hub-icon { color: var(--th-win); }
+
+    .hub-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+    .hub-title-txt { font-family: 'Fredoka'; font-weight: 600; font-size: 0.9rem; margin-bottom: 3px; line-height: 1.2; }
+    .hub-sub-txt { font-size: 0.7rem; font-weight: 700; color: #b2bec3; }
+    .lock-icon { position: absolute; top: 10px; right: 10px; font-size: 0.9rem; color: #b2bec3; }
+
+    /* MODULE & COMMON */
+    #view-module { display: none; }
+    .home-btn { 
+      position: absolute; left: 20px; top: 50%; transform: translateY(-50%); 
+      background: rgba(255,255,255,0.25); border: none; color: white; width: 40px; height: 40px; 
+      border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; z-index: 10;
+    }
+    
+    .verse-card { background: var(--card-bg); border-radius: 24px; padding: 20px; border-bottom: 5px solid #dfe6e9; margin-bottom: 15px; }
     .verse-card.active { border-color: var(--primary); transform: scale(1.01); box-shadow: 0 0 25px rgba(108, 92, 231, 0.4); z-index: 10; }
     .verse-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .badge { background:#f1f2f6; color:#636e72; font-weight:900; padding:6px 12px; border-radius:12px; font-size:0.75rem; text-transform: uppercase; }
-    .play-btn { background: var(--primary); color: white; border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: 0.2s; }
+    .play-btn { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .play-btn.playing { background: #ff7675; animation: pulse 1.5s infinite; }
-    .ar-text { font-family: 'KFGQPC Uthmanic Script HAFS Regular', serif; text-align: right; direction: rtl; margin: 10px 0 15px 0; line-height: 1.7; font-size: 32px; transition: font-size 0.2s ease; }
-    .tr-text, .fr-text { font-size: 16px; display: block; margin-bottom: 4px; transition: font-size 0.2s ease; }
-    .tr-text { color: #e17055; font-weight: 800; } .fr-text { color: #636e72; font-style: italic; }
-    .d-none { display: none !important; }
+    
+    .ar-text { font-family: 'KFGQPC Uthmanic Script HAFS Regular'; text-align: right; direction: rtl; font-size: 30px; margin: 10px 0; line-height: 1.6; }
+    .tr-text { color: #e17055; font-weight: 800; font-size: 15px; margin-bottom: 5px; display:block; } 
+    .fr-text { font-style: italic; font-size: 15px; color: #636e72; display:block; }
+    
+    .toolbar { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+    .tool-btn { background: white; border: 2px solid #dfe6e9; border-radius: 12px; padding: 8px 14px; font-weight: 800; color: #636e72; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    
+    .font-toolbar { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 25px; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 16px; }
+    .mini-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #dfe6e9; background: white; font-weight: 900; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    
+    .fabs-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 200; }
+    .fab-btn { width: 60px; height: 60px; border-radius: 50%; border: none; color: white; font-size: 1.6rem; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
+    .fab-story { background: #0984e3; border: 3px solid white; } .fab-quiz { background: #fdcb6e; border: 3px solid white; }
+    .badge { background:#f1f2f6; color:#636e72; font-weight:900; padding:6px 12px; border-radius:12px; font-size:0.75rem; text-transform: uppercase; }
 
     /* MODALS */
     .fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 300; display: none; flex-direction: column; overflow-y: auto; }
     .fullscreen-modal.open { display: flex; animation: fadeIn 0.3s; }
-    
-    /* STORY SPECIFIC */
     .story-bg { background: var(--story-bg); color: white; align-items: center; padding: 20px; }
-    .story-card { background: white; color: #2d3436; width: 100%; max-width: 500px; border-radius: 24px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; margin-top: 10px; animation: slideUp 0.4s var(--bounce); }
-    .story-img { font-size: 3.5rem; margin-bottom: 10px; display: block; }
+    .story-card { background: white; color: #2d3436; width: 100%; max-width: 500px; border-radius: 24px; padding: 25px; margin-top: 15px; text-align: center; }
+    .story-img { font-size: 3.5rem; display: block; margin-bottom: 10px; }
     .story-title { font-family: 'Fredoka'; font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; }
     .story-text { font-size: 1rem; line-height: 1.6; color: #444; margin-bottom: 15px; text-align: left; }
     
-    .source-btn { background: transparent; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px; color: #7f8c8d; font-size: 0.7rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; }
-    .source-content { display: none; background: #f1f2f6; padding: 12px; border-radius: 8px; margin-top: 10px; width: 100%; text-align: left; font-size: 0.8rem; color: #2d3436; border-left: 3px solid var(--primary); line-height: 1.4; }
-    .story-nav-btn { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; margin-top: 20px; width: 100%; max-width: 300px; }
-
-    /* GAME & RECORDER (Legacy) */
-    .quiz-bg { background: var(--quiz-bg); color: white; padding: 20px; align-items: center; }
-    .recorder-bg { background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); justify-content: flex-end; }
-    .recorder-sheet { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 30px; text-align: center; max-width: 600px; margin: 0 auto; animation: slideUp 0.3s; }
-    .mic-big-btn { width: 80px; height: 80px; border-radius: 50%; background: #f1f2f6; border: 4px solid var(--wrong); color: var(--wrong); font-size: 2.2rem; margin: 20px auto; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .mic-big-btn.recording { background: var(--wrong); color: white; animation: pulse 1s infinite; }
+    .source-btn { background: transparent; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px; color: #7f8c8d; font-size: 0.7rem; font-weight: 700; cursor: pointer; margin-top: 10px; display:inline-flex; align-items:center; gap:5px; }
+    .source-content { display: none; background: #f1f2f6; padding: 10px; border-radius: 8px; margin-top: 10px; text-align: left; font-size: 0.8rem; border-left: 3px solid var(--primary); color:#333; }
+    .story-nav-btn { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; margin-top: 20px; }
     
-    /* MENUS */
-    .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 500px; margin-top: 20px; }
-    .menu-card { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; text-align: center; cursor: pointer; border: 3px solid transparent; }
-    .menu-card:hover { background: rgba(255,255,255,0.2); }
-    .menu-icon { font-size: 2.5rem; display: block; margin-bottom: 5px; }
-    .menu-title { font-family: 'Fredoka'; font-weight: 600; }
-    .menu-sub { font-size: 0.75rem; opacity: 0.7; }
-
-    /* GAMEPLAY */
-    .game-area { width: 100%; max-width: 500px; display: none; flex-direction: column; align-items: center; }
-    .question-box { margin-bottom: 20px; min-height: 100px; width: 100%; text-align: center; }
-    .q-ar { font-family: 'KFGQPC Uthmanic Script HAFS Regular'; font-size: 2.8rem; line-height: 1.4; direction: rtl; }
-    .q-tr-game { background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 8px; font-size: 0.9rem; color: #a29bfe; font-weight: 700; display: inline-block; }
-    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
-    .game-btn { background: #5f27cd; color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 0 #3c1585; position: relative; min-height: 70px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-    .game-btn:active { transform: translateY(4px); box-shadow: none; }
-    .game-btn.correct { background: var(--correct) !important; box-shadow: 0 4px 0 #219150; }
-    .game-btn.wrong { background: var(--wrong) !important; opacity: 0.6; }
-    .puzzle-dropzone { width: 100%; min-height: 100px; border: 2px dashed rgba(255,255,255,0.3); border-radius: 15px; display: flex; flex-wrap: wrap; direction: rtl !important; justify-content: flex-start; gap: 8px; padding: 10px; background: rgba(0,0,0,0.1); margin-bottom: 20px; }
+    /* QUIZ */
+    .quiz-bg { background: var(--quiz-bg); color: white; padding: 15px; align-items: center; }
+    .quiz-nav { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px; }
+    .game-area { width: 100%; max-width: 500px; display: none; flex-direction: column; align-items: center; padding-bottom: 40px; }
+    .question-box { margin-bottom: 25px; min-height: 120px; width: 100%; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+    .q-ar { font-family: 'KFGQPC Uthmanic Script HAFS Regular'; font-size: 3rem; direction: rtl; }
+    .q-tr-game { font-family: 'Nunito'; font-size: 1rem; background: rgba(0,0,0,0.25); padding: 8px 14px; border-radius: 12px; display: inline-block; margin-top: 10px; }
+    
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+    .game-btn { background: #5f27cd; color: white; border: none; padding: 16px; border-radius: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #3c1585; min-height: 70px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .game-btn.correct { background: var(--correct) !important; box-shadow: 0 5px 0 #219150; }
+    .game-btn.wrong { background: var(--wrong) !important; box-shadow: 0 5px 0 #c0392b; opacity: 0.7; }
+    
+    .puzzle-dropzone { width: 100%; min-height: 100px; border: 3px dashed rgba(255,255,255,0.3); border-radius: 16px; display: flex; flex-wrap: wrap; direction: rtl !important; justify-content: flex-start; gap: 8px; padding: 10px; background: rgba(0,0,0,0.15); margin-bottom: 20px; }
     .puzzle-source { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; direction: rtl !important; }
-    .puzzle-piece { background: white; color: #333; padding: 8px 12px; border-radius: 8px; font-family: 'KFGQPC Uthmanic Script HAFS Regular'; font-size: 1.3rem; cursor: pointer; box-shadow: 0 3px 0 #ccc; }
+    .puzzle-piece { background: white; color: #2d3436; padding: 8px 12px; border-radius: 8px; font-family: 'KFGQPC Uthmanic Script HAFS Regular'; font-size: 1.3rem; cursor: pointer; }
+    .correction-box { margin-top: 20px; background: rgba(255,255,255,0.15); padding: 15px; border-radius: 15px; color: #ffcccc; font-weight: 800; display: none; }
     
-    .fabs-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 200; }
-    .fab-btn { width: 60px; height: 60px; border-radius: 50%; border: none; color: white; font-size: 1.6rem; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
-    .fab-story { background: #0984e3; border: 3px solid white; }
-    .fab-quiz { background: #fdcb6e; color: #d35400; border: 3px solid white; }
-
     #level-complete { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--quiz-bg); z-index:500; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
-    
+    .grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; width: 100%; max-width: 500px; margin-top: 20px; }
+    .menu-card { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px 10px; text-align: center; cursor: pointer; border: 3px solid transparent; }
+    .menu-icon { font-size: 2.5rem; display: block; margin-bottom: 5px; }
+    .progress-track { width: 100%; max-width: 500px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; margin-bottom: 20px; display: none; }
+    .progress-fill { height: 100%; width: 0%; background: #00cec9; transition: width 0.5s ease; }
+    .close-btn { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; opacity: 0.8; }
+
     @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-    @keyframes neonZoom { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1.2); opacity: 1; } }
   </style>
 </head>
 
 <body>
 
-<div class="app-container">
-  <div class="header-box"><h1 class="header-title">Surah Ar-Rum</h1></div>
+<div id="view-hub">
+  <div class="header-box">
+    <h1 class="header-title">LA MISSION DU<br>PROPHETE MUHAMMAD ﷺ</h1>
+    <div class="header-sub">Sira & Coran</div>
+  </div>
 
+  <div class="timeline-container">
+    <div class="timeline-line"></div>
+
+    <div class="timeline-section">
+      <div class="section-header"><div class="section-number">1</div><div class="section-info"><h3 class="section-title">Les Origines</h3><div class="section-desc">Mecque - 570</div></div></div>
+      <div class="hub-grid">
+        <div class="hub-card th-mekka" onclick="loadModule('al-fil')"><span class="hub-icon">🐘</span><div class="hub-title-txt">Al-Fil</div><div class="hub-sub-txt">L'Éléphant</div></div>
+        <div class="hub-card th-mekka locked"><span class="lock-icon">🔒</span><span class="hub-icon">🕌</span><div class="hub-title-txt">Quraysh</div><div class="hub-sub-txt">La Tribu</div></div>
+      </div>
+    </div>
+
+    <div class="timeline-section">
+      <div class="section-header"><div class="section-number">2</div><div class="section-info"><h3 class="section-title">La Révélation</h3><div class="section-desc">Grotte de Hira</div></div></div>
+      <div class="hub-grid">
+        <div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">⛰️</span><div class="hub-title-txt">Al-'Alaq</div><div class="hub-sub-txt">Lis !</div></div>
+        <div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🛌</span><div class="hub-title-txt">Al-Muddathir</div><div class="hub-sub-txt">Lève-toi</div></div>
+      </div>
+    </div>
+
+    <div class="timeline-section">
+      <div class="section-header"><div class="section-number">3</div><div class="section-info"><h3 class="section-title">La Promesse</h3><div class="section-desc">Confiance en Allah</div></div></div>
+      <div class="hub-grid">
+        <div class="hub-card th-hope" onclick="loadModule('ar-rum')">
+          <span class="hub-icon">⚔️</span><div class="hub-title-txt">Ar-Rum</div><div class="hub-sub-txt">Les Romains</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">4</div><div class="section-info"><h3 class="section-title">L'Appel Public</h3><div class="section-desc">Mont Safa</div></div></div>
+        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">📣</span><div class="hub-title-txt">Al-Hijr</div><div class="hub-sub-txt">Proclame !</div></div></div>
+    </div>
+    
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">5</div><div class="section-info"><h3 class="section-title">Les Premiers</h3><div class="section-desc">Convertis</div></div></div>
+        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🤝</span><div class="hub-title-txt">Az-Zumar</div><div class="hub-sub-txt">Groupes</div></div></div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">6</div><div class="section-info"><h3 class="section-title">L'Épreuve</h3><div class="section-desc">Persécutions</div></div></div>
+        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🕸️</span><div class="hub-title-txt">Al-Ankabut</div><div class="hub-sub-txt">L'Araignée</div></div></div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">7</div><div class="section-info"><h3 class="section-title">L'Abyssinie</h3><div class="section-desc">L'Exil</div></div></div>
+        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🚢</span><div class="hub-title-txt">Maryam</div><div class="hub-sub-txt">Marie</div></div></div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">8</div><div class="section-info"><h3 class="section-title">Hamza & Umar</h3><div class="section-desc">Force</div></div></div>
+        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🦁</span><div class="hub-title-txt">Al-Hadid</div><div class="hub-sub-txt">Le Fer</div></div></div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">9</div><div class="section-info"><h3 class="section-title">Le Boycott</h3><div class="section-desc">Famine</div></div></div>
+        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🍂</span><div class="hub-title-txt">Al-Mu'minun</div><div class="hub-sub-txt">Patience</div></div></div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">10</div><div class="section-info"><h3 class="section-title">Année de Tristesse</h3><div class="section-desc">Pauvreté & Solitude</div></div></div>
+        <div class="hub-grid">
+            <div class="hub-card th-hope" onclick="loadModule('ad-duha')"><span class="hub-icon">☀️</span><div class="hub-title-txt">Ad-Duha</div><div class="hub-sub-txt">Le Jour</div></div>
+            <div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">❤️</span><div class="hub-title-txt">Ash-Sharh</div><div class="hub-sub-txt">L'Ouverture</div></div>
+        </div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">11</div><div class="section-info"><h3 class="section-title">Isra & Mi'raj</h3><div class="section-desc">Voyage Nocturne</div></div></div>
+        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🌌</span><div class="hub-title-txt">Al-Isra</div><div class="hub-sub-txt">Le Voyage</div></div></div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">12</div><div class="section-info"><h3 class="section-title">L'Hégire</h3><div class="section-desc">Vers Médine</div></div></div>
+        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🐪</span><div class="hub-title-txt">Al-Anfal</div><div class="hub-sub-txt">Le Butin</div></div></div>
+    </div>
+
+  </div>
+</div>
+
+<div id="view-module">
+  <div class="header-box">
+    <button class="home-btn" onclick="goHome()">🏠</button>
+    <h1 class="header-title" id="mod-title">...</h1>
+  </div>
+  
   <div class="toolbar">
     <div class="tool-btn">
       <span style="font-size:1.1rem">🎙️</span>
-      <select id="reciter-opt" onchange="changeReciter(this.value)" class="reciter-select">
+      <select id="reciter-opt" onchange="changeReciter(this.value)" class="reciter-select" style="min-width:100px;">
         <option value="Minshawy_Teacher_128kbps">Minshawi (Enfant)</option>
-        <option value="Alafasy_128kbps">Mishary Alafasy</option>
         <option value="Husary_Muallim_128kbps">Al-Hussary</option>
+        <option value="Alafasy_128kbps">Mishary Alafasy</option>
       </select>
     </div>
     <button class="tool-btn" onclick="toggleLayer('tr-text', this)">👁️ Phonétique</button>
@@ -124,254 +258,220 @@
     <div class="font-group" style="margin-left:15px;"><span class="font-label">FR/TR</span><button class="mini-btn" onclick="adjustSize('tr', -1); adjustSize('fr', -1)">-</button><button class="mini-btn" onclick="adjustSize('tr', 1); adjustSize('fr', 1)">+</button></div>
   </div>
 
-  <div class="verse-card" id="card-30-1">
-    <div class="verse-header"><span class="badge">Verset 1</span><div class="audio-controls"><button class="play-btn" id="btn-30-1" onclick="playAyah(30,1)">▶</button></div></div>
-    <div class="ar-text">الٓمٓ</div><div class="tr-text">Alif - Lâm - Mîm</div><div class="fr-text">Alif, Lâm, Mîm.</div>
-  </div>
-  <div class="verse-card" id="card-30-2">
-    <div class="verse-header"><span class="badge">Verset 2</span><div class="audio-controls"><button class="play-btn" id="btn-30-2" onclick="playAyah(30,2)">▶</button></div></div>
-    <div class="ar-text">غُلِبَتِ ٱلرُّومُ</div><div class="tr-text">Ghoulibati r-Roum</div><div class="fr-text">Les Romains ont été vaincus,</div>
-  </div>
-  <div class="verse-card" id="card-30-3">
-    <div class="verse-header"><span class="badge">Verset 3</span><div class="audio-controls"><button class="play-btn" id="btn-30-3" onclick="playAyah(30,3)">▶</button></div></div>
-    <div class="ar-text">فِيٓ أَدۡنَى ٱلۡأَرۡضِ وَهُم مِّنۢ بَعۡدِ غَلَبِهِمۡ سَيَغۡلِبُونَ</div><div class="tr-text">Fī adna l-arḍi...</div><div class="fr-text">dans le pays voisin... ils seront vainqueurs,</div>
-  </div>
-  <div class="verse-card" id="card-30-4">
-    <div class="verse-header"><span class="badge">Verset 4</span><div class="audio-controls"><button class="play-btn" id="btn-30-4" onclick="playAyah(30,4)">▶</button></div></div>
-    <div class="ar-text">فِي بِضۡعِ سِنِينَۗ...</div><div class="tr-text">Fī biḍ‘i sinīn...</div><div class="fr-text">dans quelques années...</div>
-  </div>
-</div>
+  <div id="verses-container"></div>
 
-<div class="fabs-container">
-  <button class="fab-btn fab-quiz" onclick="openGameHub()">🧠</button>
-  <button class="fab-btn fab-story" onclick="openStoryHub()">📜</button>
-  <button class="fab-btn fab-mic" onclick="openRecorder()">🎤</button>
+  <div class="fabs-container">
+    <button class="fab-btn fab-quiz" onclick="openGameHub()">🧠</button>
+    <button class="fab-btn fab-story" onclick="openStoryHub()">📜</button>
+  </div>
 </div>
 
 <div class="fullscreen-modal story-bg" id="story-modal">
   <div class="quiz-nav" style="color:white; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
     <button class="close-btn" onclick="closeStory()">✕ Fermer</button>
-    <div style="font-weight:900;">HISTOIRE & CONTEXTE</div>
+    <div style="font-weight:900;">CONTEXTE SIRA</div>
   </div>
-  
-  <div id="story-age-select" class="grid-menu">
-    <div class="menu-card" onclick="selectStoryAge('eveil')" style="border-color:var(--lvl-1);">
-      <span class="menu-icon">🐣</span><div class="menu-title">Raconte-moi</div><div class="menu-sub">Version Simple</div>
-    </div>
-    <div class="menu-card" onclick="selectStoryAge('chercheur')" style="border-color:var(--lvl-3);">
-      <span class="menu-icon">🦁</span><div class="menu-title">Deep Research</div><div class="menu-sub">Détails & Preuves</div>
-    </div>
+  <div id="story-age-select" class="grid-menu" style="max-width:400px;">
+    <div class="menu-card" onclick="selectStoryAge('eveil')" style="background:white; color:#333;"><span class="menu-icon">🐣</span><div class="menu-title">Groupe Éveil</div></div>
+    <div class="menu-card" onclick="selectStoryAge('chercheur')" style="background:white; color:#333;"><span class="menu-icon">🦁</span><div class="menu-title">Groupe Chercheur</div></div>
   </div>
-
   <div id="story-container" style="width:100%; display:none; flex-direction:column; align-items:center;"></div>
 </div>
 
 <div class="fullscreen-modal quiz-bg" id="game-modal">
-  <div class="quiz-nav">
-    <button class="close-btn" onclick="closeGameHub()">✕ Quitter</button>
-    <div style="font-weight:900;">JEUX</div>
-  </div>
+  <div class="quiz-nav"><button class="close-btn" onclick="closeGameHub()">✕ Quitter</button><div style="font-weight:900;">JEUX</div></div>
   <div class="progress-track" id="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-
-  <div id="age-select-screen" class="grid-menu">
-    <div class="menu-card" onclick="selectAge('age6')" style="border-color:var(--lvl-1);"><span class="menu-icon">🐣</span><div class="menu-title">Groupe Éveil</div><div class="menu-sub">Débutants</div></div>
-    <div class="menu-card" onclick="selectAge('age8')" style="border-color:var(--lvl-3);"><span class="menu-icon">🦁</span><div class="menu-title">Groupe Chercheur</div><div class="menu-sub">Avancés</div></div>
+  <div id="age-select-screen" class="grid-menu" style="max-width:400px;">
+    <div class="menu-card" onclick="selectAge('age6')" style="background:white; color:#333;"><span class="menu-icon">🐣</span><div class="menu-title">Groupe Éveil</div></div>
+    <div class="menu-card" onclick="selectAge('age8')" style="background:white; color:#333;"><span class="menu-icon">🦁</span><div class="menu-title">Groupe Chercheur</div></div>
   </div>
-  <div id="level-select-screen" class="grid-menu" style="display:none;">
-    <div class="menu-card" onclick="selectLevel('vocab')" style="border-color:var(--lvl-1);"><span class="menu-icon">📚</span><div class="menu-title">Vocabulaire</div></div>
-    <div class="menu-card" onclick="selectLevel('puzzle')" style="border-color:var(--lvl-2);"><span class="menu-icon">🧩</span><div class="menu-title">Puzzle</div></div>
-    <div class="menu-card" onclick="selectLevel('missing')" style="border-color:var(--lvl-3);"><span class="menu-icon">🧐</span><div class="menu-title">Expert</div></div>
+  <div id="level-select-screen" class="grid-menu" style="display:none; max-width:400px;">
+    <div class="menu-card" onclick="selectLevel('vocab')" style="background:white; color:#333;"><span class="menu-icon">📚</span><div class="menu-title">Vocabulaire</div></div>
+    <div class="menu-card" onclick="selectLevel('puzzle')" style="background:white; color:#333;"><span class="menu-icon">🧩</span><div class="menu-title">Puzzle</div></div>
+    <div class="menu-card" onclick="selectLevel('missing')" style="background:white; color:#333;"><span class="menu-icon">🧐</span><div class="menu-title">Expert</div></div>
   </div>
   <div id="game-area" class="game-area">
-    <div id="question-box" class="question-box"></div>
-    <div id="options-grid" class="options-grid" style="display:none;"></div>
-    <div id="puzzle-area" class="puzzle-area"><div style="margin-bottom:10px; font-size:0.85rem; color:#aaa; font-weight:700;">Début de la phrase ➡️</div><div id="puzzle-dropzone" class="puzzle-dropzone"></div><div id="puzzle-source" class="puzzle-source"></div></div>
+    <div id="question-box" class="question-box"></div><div id="options-grid" class="options-grid" style="display:none;"></div>
+    <div id="puzzle-area" class="puzzle-area" style="display:none;"><div id="puzzle-dropzone" class="puzzle-dropzone"></div><div id="puzzle-source" class="puzzle-source"></div></div>
     <div id="correction-box" class="correction-box"></div>
   </div>
-  <div id="level-complete">
-    <span class="neon-text">ما شاء الله</span><h2 style="margin:0; color:white;">MA SHA ALLAH !</h2>
-    <button id="next-level-btn" class="game-btn" style="background:white; color:var(--quiz-bg); margin-top:20px; width:100%; z-index:999;" onclick="resetGame()">Menu</button>
-  </div>
-</div>
-
-<div class="fullscreen-modal recorder-bg" id="recorder-modal">
-  <div class="recorder-sheet">
-    <h2 style="font-family:'Fredoka'; color:#2d3436; margin-top:0;">Studio Mémorisation</h2>
-    <p style="color:#636e72;">Enregistre ta récitation !</p>
-    <div class="mic-big-btn" id="mic-trigger" onclick="toggleRecording()">🎤</div>
-    <div id="mic-status" style="font-weight:800; color:#b2bec3;">Appuie pour enregistrer</div>
-    <audio id="user-playback" controls style="width:100%; margin-top:15px; display:none;"></audio>
-    <button onclick="closeRecorder()" style="background:none; border:none; color:#aaa; font-weight:700; margin-top:15px;">Fermer</button>
-  </div>
+  <div id="level-complete"><span class="neon-text">ما شاء الله</span><h2 style="margin:0; color:white;">MA SHA ALLAH !</h2><button id="next-level-btn" class="game-btn" style="background:white; color:var(--quiz-bg); margin-top:20px; width:100%; z-index:999;" onclick="resetGame()">Menu</button></div>
 </div>
 
 <script>
-  // -------------------------------------------------------------
-  // SETTINGS & AUDIO
-  // -------------------------------------------------------------
-  let fontSizes = { ar: 32, tr: 16, fr: 16 }; 
-  function adjustSize(type, delta) {
-    fontSizes[type] += delta; if(fontSizes[type]<10)fontSizes[type]=10; if(fontSizes[type]>70)fontSizes[type]=70;
-    if(type==='ar')document.querySelectorAll('.ar-text').forEach(e=>e.style.fontSize=fontSizes.ar+'px');
-    if(type==='tr')document.querySelectorAll('.tr-text').forEach(e=>e.style.fontSize=fontSizes.tr+'px');
-    if(type==='fr')document.querySelectorAll('.fr-text').forEach(e=>e.style.fontSize=fontSizes.fr+'px');
+  // ====================== DATA ======================
+  const ModuleContent = {
+    "ar-rum": {
+      title: "Ar-Rum (Les Romains)", surahId: 30,
+      verses: [
+        { id:1, ar:"الٓمٓ", tr:"Alif - Lâm - Mîm", fr:"Alif, Lâm, Mîm." },
+        { id:2, ar:"غُلِبَتِ ٱلرُّومُ", tr:"Ghoulibati r-Roum", fr:"Les Romains ont été vaincus," },
+        { id:3, ar:"فِيٓ أَدۡنَى ٱلۡأَرۡضِ وَهُم مِّنۢ بَعۡدِ غَلَبِهِمۡ سَيَغۡلِبُونَ", tr:"Fī adna l-arḍi wa hum min ba‘di ghalabihim sayaghlibūn", fr:"dans le pays voisin, et après leur défaite ils seront vainqueurs," },
+        { id:4, ar:"فِي بِضۡعِ سِنِينَۗ لِلَّهِ ٱلۡأَمۡرُ مِن قَبۡلُ وَمِنۢ بَعۡدُۚ وَيَوۡمَئِذٖ يَفۡرَحُ ٱلۡمُؤۡمِنُونَ", tr:"Fī biḍ‘i sinīn. Lillāhi l-amru min qablu wa min ba‘du wa-yawma-idhin yafraḥu al-mu’minūn", fr:"dans quelques années. À Allah appartient le commandement, avant comme après, et ce jour-là les Croyants se réjouiront." }
+      ],
+      story: {
+        eveil: [
+          { img:"⚔️", title:"La Guerre", text:"Il y a longtemps, deux grands pays se faisaient la guerre : les Romains et les Perses. Les Perses étaient très forts et ont gagné une grande bataille.", sourceDetail:"Contexte Historique 614 ap. J.C" },
+          { img:"😢", title:"La Tristesse", text:"À la Mecque, les croyants étaient tristes. Les méchants se moquaient d'eux : 'Vos amis les Romains ont perdu, vous allez perdre aussi !'", sourceDetail:"Tafsir Ibn Kathir" },
+          { img:"✨", title:"La Promesse", text:"Mais Allah a envoyé le Prophète ﷺ pour dire : 'Ne soyez pas tristes ! Dans quelques années, les Romains vont gagner !' C'était une promesse d'Allah.", sourceDetail:"Coran 30:2-4" },
+          { img:"🏆", title:"La Victoire", text:"Et c'est arrivé ! Quelques années plus tard, les Romains ont gagné. Allah dit toujours la vérité et aide les croyants.", sourceDetail:"Histoire : Coïncide avec la bataille de Badr." }
+        ],
+        chercheur: [
+          { img:"⚔️", title:"Le Contexte Géopolitique", text:"Les Perses (Sassanides) ont écrasé les Romains (Byzantins) et ont même pris Jérusalem. C'était un choc mondial !", sourceDetail:"Ibn Kathir (Tafsir Ar-Rum) : Les Perses dominaient tout le Proche-Orient vers 614-615." },
+          { img:"😧", title:"Le Choc à la Mecque", text:"Les polythéistes de la Mecque disaient aux Compagnons : 'Les adorateurs du feu (Perses) ont battu les Gens du Livre (Romains). Nous aussi, nous vous battrons !'", sourceDetail:"Jami` at-Tirmidhi 3193 : Les mécréants aimaient voir les Perses gagner." },
+          { img:"🤝", title:"Le Pari (Al-Mouqabala)", text:"Abu Bakr (ra) était si sûr de la révélation qu'il a fait un pari avec Ubayy bin Khalaf : 100 chameaux que les Romains gagneront !", sourceDetail:"At-Tirmidhi 3193 (Sahih) : C'était avant l'interdiction des jeux de hasard." },
+          { img:"⏳", title:"La Définition de 'Bid'", text:"Le Coran utilise le mot 'Bid'i Sinin'. En arabe pur, cela signifie entre 3 et 9 ans. La prophétie était donc très précise.", sourceDetail:"Linguistique Arabe : Bid' (بضع) désigne un nombre de 3 à 9." },
+          { img:"🚫", title:"L'Aumône (Sadaqah)", text:"Abu Bakr a gagné le pari ! Mais le jeu de hasard venait d'être interdit. Le Prophète ﷺ lui a dit : 'C'est un gain illicite (Suh't), donne-le aux pauvres.'", sourceDetail:"At-Tirmidhi : L'Islam interdit de profiter des gains de paris." }
+        ]
+      },
+      games: {
+        age6: {
+          vocab: [
+            {q:"ٱلرُّومُ",tr:"Ar-Roum",a:"Les Romains",opts:[{t:"Les Romains",i:"🛡️"},{t:"La Terre",i:"🌍"}]},
+            {q:"غُلِبَتِ",tr:"Ghoulibati",a:"Ont été vaincus",opts:[{t:"Ont été vaincus",i:"🏳️"},{t:"Ont gagné",i:"🏆"}]},
+            {q:"ٱلۡأَرۡضِ",tr:"Al-Ard",a:"La Terre",opts:[{t:"La Terre",i:"🌍"},{t:"Le Ciel",i:"☁️"}]},
+            {q:"يَفۡرَحُ",tr:"Yafrahou",a:"Se réjouir",opts:[{t:"Se réjouir",i:"😊"},{t:"Pleurer",i:"😢"}]},
+            {q:"ٱلۡمُؤۡمِنُونَ",tr:"Al-Mouminoun",a:"Les Croyants",opts:[{t:"Les Croyants",i:"🤲"},{t:"Les Autos",i:"🚗"}]},
+            {q:"سِنِينَ",tr:"Sinin",a:"Années",opts:[{t:"Années",i:"📅"},{t:"Jours",i:"☀️"}]}
+          ],
+          puzzle: [
+            {full:["غُلِبَتِ","ٱلرُّومُ"],tr:"Ghoulibati r-Roum"},
+            {full:["فِيٓ","أَدۡنَى","ٱلۡأَرۡضِ"],tr:"Fi adna l-ardi"},
+            {full:["لِلَّهِ","ٱلۡأَمۡرُ"],tr:"Lillahi l-amr"},
+            {full:["وَيَوۡمَئِذٖ","يَفۡرَحُ"],tr:"Wa yawma-idhin yafrahu"},
+            {full:["يَفۡرَحُ","ٱلۡمُؤۡمِنُونَ"],tr:"Yafrahu l-mouminoun"},
+            {full:["مِن","قَبۡلُ"],tr:"Min qablu"}
+          ],
+          missing: [
+            {q:"غُلِبَتِ .......",tr:"Ghoulibati ...",a:"ٱلرُّومُ",opts:[{t:"ٱلرُّومُ",i:"🛡️"},{t:"ٱلۡأَرۡضُ",i:"🌍"}]},
+            {q:"....... ٱلۡأَمۡرُ",tr:"... l-amr",a:"لِلَّهِ",opts:[{t:"لِلَّهِ",i:"☝️"},{t:"لِلنَّاسِ",i:"👥"}]},
+            {q:"وَيَوۡمَئِذٖ .......",tr:"Wa yawma-idhin ...",a:"يَفۡرَحُ",opts:[{t:"يَفۡرَحُ",i:"😊"},{t:"يَبۡكِي",i:"😢"}]},
+            {q:"....... ٱلۡمُؤۡمِنُونَ",tr:"... l-mouminoun",a:"يَفۡرَحُ",opts:[{t:"يَفۡرَحُ",i:"😊"},{t:"يَنَامُ",i:"😴"}]},
+            {q:"فِي بِضۡعِ .......",tr:"Fi bid'i ...",a:"سِنِينَ",opts:[{t:"سِنِينَ",i:"📅"},{t:"أَيَّامٍ",i:"☀️"}]},
+            {q:"فِيٓ أَدۡنَى .......",tr:"Fi adna ...",a:"ٱلۡأَرۡضِ",opts:[{t:"ٱلۡأَرۡضِ",i:"🌍"},{t:"ٱلسَّمَآءِ",i:"☁️"}]}
+          ]
+        },
+        age8: {
+          vocab: [
+            {q:"غُلِبَتِ",tr:"Ghoulibati",a:"Ont été vaincus",opts:["Ont gagné","Ont été vaincus","Ont voyagé"]},
+            {q:"بِضۡعِ",tr:"Biḍ‘i",a:"3 à 9",opts:["Beaucoup","Un seul","3 à 9"]},
+            {q:"أَدۡنَى",tr:"Adna",a:"Voisin / Plus bas",opts:["Plus haut","Voisin / Plus bas","Lointain"]},
+            {q:"يَفۡرَحُ",tr:"Yafrahu",a:"Se réjouir",opts:["Se réjouir","Pleurer","Dormir"]},
+            {q:"ٱلۡأَمۡرُ",tr:"Al-Amr",a:"Le Commandement",opts:["Le Conseil","Le Commandement","L'Argent"]},
+            {q:"سَيَغۡلِبُونَ",tr:"Sayaghliboun",a:"Ils vaincront",opts:["Ils vaincront","Ils perdront","Ils partiront"]}
+          ],
+          puzzle: [
+            {full:["غُلِبَتِ","ٱلرُّومُ"],tr:"Ghoulibati r-Roum"},
+            {full:["فِيٓ","أَدۡنَى","ٱلۡأَرۡضِ"],tr:"Fi adna l-ardi"},
+            {full:["وَهُم","مِّنۢ","بَعۡدِ","غَلَبِهِمۡ","سَيَغۡلِبُونَ"],tr:"Wa hum min ba'di ghalabihim sayaghlibūn"},
+            {full:["لِلَّهِ","ٱلۡأَمۡرُ","مِن","قَبۡلُ","وَمِنۢ","بَعۡدُۚ"],tr:"Lillāhi l-amru min qablu wa min ba'du"},
+            {full:["وَيَوۡمَئِذٖ","يَفۡرَحُ","ٱلۡمُؤۡمِنُونَ"],tr:"Wa yawma-idhin yafrahu l-mouminoun"},
+            {full:["فِي","بِضۡعِ","سِنِينَ"],tr:"Fi bid'i sinin"}
+          ],
+          missing: [
+            {q:"غُلِبَتِ .......",tr:"Ghoulibati ...",a:"ٱلرُّومُ",opts:["ٱلرُّومُ","ٱلۡفُرۡسُ"]},
+            {q:"....... ٱلۡأَمۡرُ مِن قَبۡلُ",tr:"... al-amru...",a:"لِلَّهِ",opts:["لِلَّهِ","لِلْمَلِكِ"]},
+            {q:"وَيَوۡمَئِذٖ ....... ٱلۡمُؤۡمِنُونَ",tr:"Wa yawma-idhin ... al-mouminoun",a:"يَفۡرَحُ",opts:["يَفۡرَحُ","يَحْزَنُ"]},
+            {q:"وَهُم مِّنۢ ....... غَلَبِهِمۡ",tr:"Wa hum min ... ghalabihim",a:"بَعۡدِ",opts:["بَعۡدِ","قَبْلِ"]},
+            {q:"فِيٓ أَدۡنَى .......",tr:"Fi adna ...",a:"ٱلۡأَرۡضِ",opts:["ٱلۡأَرۡضِ","ٱلسَّمَآءِ"]},
+            {q:"فِي بِضۡعِ .......",tr:"Fi bid'i ...",a:"سِنِينَ",opts:["سِنِينَ","أَيَّامٍ"]}
+          ]
+        }
+      }
+    },
+    // MODULES DE DEMO
+    "al-fil": {
+      title: "Al-Fil (L'Éléphant)", surahId: 105,
+      verses: [
+        { id:1, ar:"أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَٰبِ ٱلْفِيلِ", tr:"Alam tara kayfa...", fr:"N'as-tu pas vu comment ton Seigneur a agi envers les gens de l'Éléphant ?" }
+      ],
+      story: { eveil:[], chercheur:[] }, games: { age6:{}, age8:{} }
+    },
+    "ad-duha": {
+      title: "Ad-Duha", surahId: 93,
+      verses: [{id:1,ar:"وَٱلضُّحَىٰ",tr:"Wad-Duha",fr:"Par le jour montant"}],
+      story: {eveil:[],chercheur:[]}, games: {age6:{},age8:{}}
+    }
+  };
+
+  // ====================== ENGINE ======================
+  
+  // CORRECTION FONTS : Ajout de la variable qui manquait
+  let fontSizes = { ar: 30, tr: 15, fr: 15 };
+
+  let currentData = null;
+  function loadModule(id) {
+    if(!ModuleContent[id]) return alert("Module en construction !");
+    currentData = ModuleContent[id];
+    document.getElementById('view-hub').style.display='none';
+    document.getElementById('view-module').style.display='block';
+    window.scrollTo(0,0);
+    document.getElementById('mod-title').innerText = currentData.title;
+    const cont = document.getElementById('verses-container'); cont.innerHTML='';
+    currentData.verses.forEach(v => {
+      const c = document.createElement('div'); c.className='verse-card'; c.id=`card-${currentData.surahId}-${v.id}`;
+      c.innerHTML=`<div class="verse-header"><span class="badge">Verset ${v.id}</span><div class="audio-controls"><button class="play-btn" id="btn-${currentData.surahId}-${v.id}" onclick="playAyah(${currentData.surahId},${v.id})">▶</button></div></div><div class="ar-text">${v.ar}</div><div class="tr-text">${v.tr}</div><div class="fr-text">${v.fr}</div>`;
+      cont.appendChild(c);
+    });
+    // Réappliquer les polices actuelles
+    adjustSize('ar', 0); adjustSize('tr', 0);
   }
+  
+  function goHome() { stopAudio(); document.getElementById('view-module').style.display='none'; document.getElementById('view-hub').style.display='block'; }
+
+  // --- AUDIO ---
   let reciter="Minshawy_Teacher_128kbps", currentAudio=null, currentBtnId=null;
   function changeReciter(v){reciter=v;stopAudio();}
-  function toggleLayer(c,b){ document.querySelectorAll('.'+c).forEach(e=>e.classList.toggle('d-none')); b.style.opacity=(b.style.opacity==="0.5")?"1":"0.5"; }
-  function stopAudio(){ if(currentAudio){currentAudio.pause(); currentAudio=null;} document.querySelectorAll('.play-btn').forEach(b=>{b.classList.remove('playing');b.innerText="▶"}); document.querySelectorAll('.verse-card').forEach(c=>c.classList.remove('active')); currentBtnId=null; }
+  function toggleLayer(c,b){document.querySelectorAll('.'+c).forEach(e=>e.classList.toggle('d-none')); b.style.opacity=(b.style.opacity==="0.5")?"1":"0.5";}
+  function stopAudio(){if(currentAudio){currentAudio.pause();currentAudio=null;} document.querySelectorAll('.play-btn').forEach(b=>{b.classList.remove('playing');b.innerText="▶"}); document.querySelectorAll('.verse-card').forEach(c=>c.classList.remove('active'));}
   function playAyah(s,a){
     const btnId=`btn-${s}-${a}`;
-    if(currentAudio && currentBtnId===btnId){
-      if(currentAudio.paused){ currentAudio.play(); document.getElementById(btnId).innerText="⏸"; document.getElementById(btnId).classList.add('playing'); }
-      else { currentAudio.pause(); document.getElementById(btnId).innerText="▶"; document.getElementById(btnId).classList.remove('playing'); }
-      return;
-    }
+    if(currentAudio && currentBtnId===btnId){ if(currentAudio.paused){currentAudio.play();document.getElementById(btnId).innerText="⏸";document.getElementById(btnId).classList.add('playing');}else{currentAudio.pause();document.getElementById(btnId).innerText="▶";document.getElementById(btnId).classList.remove('playing');} return; }
     stopAudio(); currentBtnId=btnId;
     const btn=document.getElementById(btnId); if(btn){btn.innerText="⏸";btn.classList.add('playing');}
     const card=document.getElementById(`card-${s}-${a}`); if(card)card.classList.add('active');
-    const sStr=String(s).padStart(3,'0'), aStr=String(a).padStart(3,'0');
-    currentAudio=new Audio(`https://everyayah.com/data/${reciter}/${sStr}${aStr}.mp3`);
+    currentAudio=new Audio(`https://everyayah.com/data/${reciter}/${String(s).padStart(3,'0')}${String(a).padStart(3,'0')}.mp3`);
     currentAudio.onended=()=>stopAudio(); currentAudio.play().catch(e=>stopAudio());
   }
 
-  // -------------------------------------------------------------
-  // DATA STORY (EVEIL vs CHERCHEUR)
-  // -------------------------------------------------------------
-  const storyDataContent = {
-    // VERSION SIMPLE (ÉVEIL)
-    eveil: [
-      {
-        img: "⚔️",
-        title: "La Guerre",
-        text: "Il y a longtemps, deux grands pays se faisaient la guerre : les Romains et les Perses. Les Perses étaient très forts et ont gagné !",
-        sourceDetail: "<strong>Contexte :</strong> Guerre historique entre l'Empire Byzantin et l'Empire Sassanide (614 ap. J.C)."
-      },
-      {
-        img: "😢",
-        title: "La Tristesse",
-        text: "À la Mecque, les croyants étaient tristes car ils aimaient bien les Romains. Les méchants se moquaient d'eux : <i>'Vos amis ont perdu, vous allez perdre aussi !'</i>",
-        sourceDetail: "<strong>Tafsir Ibn Kathir :</strong> Les idolâtres de la Mecque se réjouissaient de la victoire des Perses (qui étaient aussi idolâtres)."
-      },
-      {
-        img: "✨",
-        title: "La Promesse d'Allah",
-        text: "Mais Allah a envoyé le Prophète ﷺ pour dire : <b>'Ne soyez pas tristes ! Dans quelques années, les Romains vont gagner !'</b>",
-        sourceDetail: "<strong>Coran 30:2-4 :</strong> La promesse divine d'une victoire romaine 'dans quelques années' (Bid'i Sinin)."
-      },
-      {
-        img: "🏆",
-        title: "La Victoire",
-        text: "Et c'est arrivé ! Quelques années plus tard, les Romains ont gagné. Allah dit toujours la vérité.",
-        sourceDetail: "<strong>Histoire :</strong> La victoire romaine a eu lieu en même temps que la victoire des musulmans à Badr."
-      }
-    ],
-    // VERSION DETAILLÉE (CHERCHEUR)
-    chercheur: [
-      {
-        img: "⚔️",
-        title: "Le Contexte Géopolitique",
-        text: "Les Perses (Sassanides) ont écrasé les Romains (Byzantins) et ont même pris Jérusalem. C'était un choc mondial !",
-        sourceDetail: "<strong>Ibn Kathir (Tafsir Ar-Rum) :</strong> Les Perses dominaient tout le Proche-Orient vers 614-615."
-      },
-      {
-        img: "😧",
-        title: "Le Choc à la Mecque",
-        text: "Les polythéistes de la Mecque disaient aux Compagnons : <i>'Les adorateurs du feu (Perses) ont battu les Gens du Livre (Romains). Nous aussi, nous vous battrons !'</i>",
-        sourceDetail: "<strong>Jami` at-Tirmidhi 3193 :</strong> Les mécréants aimaient voir les Perses gagner car ils étaient polythéistes comme eux."
-      },
-      {
-        img: "🤝",
-        title: "Le Pari (Al-Mouqabala)",
-        text: "Abu Bakr (ra) était si sûr de la révélation qu'il a fait un pari avec Ubayy bin Khalaf : <b>100 chameaux que les Romains gagneront !</b>",
-        sourceDetail: "<strong>At-Tirmidhi 3193 (Sahih) :</strong> C'était avant l'interdiction des jeux de hasard. Le Prophète ﷺ a conseillé d'allonger le délai à 'moins de 10 ans' (Bid')."
-      },
-      {
-        img: "⏳",
-        title: "La Définition de 'Bid'",
-        text: "Le Coran utilise le mot <b>'Bid'i Sinin'</b>. En arabe pur, cela signifie <b>entre 3 et 9 ans</b>. La prophétie était donc très précise.",
-        sourceDetail: "<strong>Linguistique Arabe :</strong> Bid' (بضع) désigne un nombre de 3 à 9. La victoire a eu lieu la 7ème année."
-      },
-      {
-        img: "🚫",
-        title: "L'Aumône (Sadaqah)",
-        text: "Abu Bakr a gagné le pari ! Mais le jeu de hasard venait d'être interdit. Le Prophète ﷺ lui a dit : <i>'C'est un gain illicite (Suh't), donne-le aux pauvres.'</i>",
-        sourceDetail: "<strong>At-Tirmidhi :</strong> L'Islam interdit de profiter des gains de paris. L'argent a été purifié en aumône."
-      }
-    ]
-  };
-
-  let currentStoryType = 'eveil';
-  let storyIdx = 0;
-
-  function openStoryHub() {
-    if(currentAudio) stopAudio();
-    document.getElementById('story-modal').classList.add('open');
-    document.getElementById('story-age-select').style.display = 'grid';
-    document.getElementById('story-container').style.display = 'none';
-  }
-  function closeStory() { document.getElementById('story-modal').classList.remove('open'); }
-
-  function selectStoryAge(type) {
-    currentStoryType = type;
-    document.getElementById('story-age-select').style.display = 'none';
-    document.getElementById('story-container').style.display = 'flex';
-    storyIdx = 0;
-    renderStory();
-  }
-
-  function renderStory() {
-    const container = document.getElementById('story-container');
-    const data = storyDataContent[currentStoryType][storyIdx];
-    const btnText = (storyIdx < storyDataContent[currentStoryType].length - 1) ? "Continuer ➡" : "Terminer ✅";
-    const btnAction = (storyIdx < storyDataContent[currentStoryType].length - 1) ? "nextStory()" : "closeStory()";
-
-    container.innerHTML = `
+  // --- STORY ---
+  let currentStoryType='eveil', storyIdx=0;
+  function openStoryHub(){if(currentAudio)stopAudio();document.getElementById('story-modal').classList.add('open');document.getElementById('story-age-select').style.display='grid';document.getElementById('story-container').style.display='none';}
+  function closeStory(){document.getElementById('story-modal').classList.remove('open');}
+  function selectStoryAge(t){currentStoryType=t;document.getElementById('story-age-select').style.display='none';document.getElementById('story-container').style.display='flex';storyIdx=0;renderStory();}
+  function renderStory(){
+    const list = currentData.story[currentStoryType];
+    if(!list || list.length===0){document.getElementById('story-container').innerHTML="<p style='color:white;'>Bientôt...</p>";return;}
+    const data = list[storyIdx];
+    const btnText = (storyIdx < list.length-1) ? "Suivant ➡" : "Terminer ✅";
+    const btnAction = (storyIdx < list.length-1) ? "nextStory()" : "closeStory()";
+    document.getElementById('story-container').innerHTML = `
       <div class="story-card">
-        <span class="story-img">${data.img}</span>
-        <div class="story-title">${data.title}</div>
-        <div class="story-text">${data.text}</div>
-        <button class="source-btn" onclick="toggleSource(this)">🔍 Source & Détails</button>
-        <div class="source-content">${data.sourceDetail}</div>
+        <span class="story-img">${data.img}</span><div class="story-title">${data.title}</div><div class="story-text">${data.text}</div>
+        <button class="source-btn" onclick="toggleSource(this)">🔍 Source</button><div class="source-content">${data.sourceDetail}</div>
       </div>
-      <div style="margin-top:10px; color:#aaa; font-size:0.9rem;">Page ${storyIdx+1} / ${storyDataContent[currentStoryType].length}</div>
       <button class="story-nav-btn" onclick="${btnAction}">${btnText}</button>
     `;
   }
+  function nextStory(){storyIdx++;renderStory();}
+  function toggleSource(btn){const c=btn.nextElementSibling; if(c.style.display==="block"){c.style.display="none";btn.innerHTML="🔍 Source";}else{c.style.display="block";btn.innerHTML="❌ Fermer";}}
 
-  function toggleSource(btn) {
-    const content = btn.nextElementSibling;
-    if (content.style.display === "block") { content.style.display = "none"; btn.innerHTML = "🔍 Source & Détails"; }
-    else { content.style.display = "block"; btn.innerHTML = "❌ Fermer"; }
-  }
-  function nextStory() { storyIdx++; renderStory(); }
-
-  // -------------------------------------------------------------
-  // GAME LOGIC
-  // -------------------------------------------------------------
-  const gameData = {
-    age6: {
-      vocab: [{q:"ٱلرُّومُ",tr:"Ar-Roum",a:"Les Romains",opts:[{t:"Les Romains",i:"🛡️"},{t:"La Terre",i:"🌍"},{t:"Le Livre",i:"📖"}]}, {q:"غُلِبَتِ",tr:"Ghoulibati",a:"Ont été vaincus",opts:[{t:"Ont été vaincus",i:"🏳️"},{t:"Ont gagné",i:"🏆"},{t:"Dorment",i:"🛌"}]}],
-      puzzle: [{full:["غُلِبَتِ","ٱلرُّومُ"],tr:"Ghoulibati r-Roum"},{full:["فِيٓ","أَدۡنَى","ٱلۡأَرۡضِ"],tr:"Fi adna l-ardi"}],
-      missing: [{q:"غُلِبَتِ .......",tr:"Ghoulibati ...",a:"ٱلرُّومُ",opts:[{t:"ٱلرُّومُ",i:"🛡️"},{t:"ٱلۡأَرۡضُ",i:"🌍"}]}, {q:"....... ٱلۡأَمۡرُ",tr:"... l-amr",a:"لِلَّهِ",opts:[{t:"لِلَّهِ",i:"☝️"},{t:"لِلنَّاسِ",i:"👥"}]}]
-    },
-    age8: {
-      vocab: [{q:"غُلِبَتِ",tr:"Ghoulibati",a:"Ont été vaincus",opts:["Ont gagné","Ont été vaincus","Ont voyagé"]}, {q:"بِضۡعِ",tr:"Biḍ‘i",a:"3 à 9",opts:["Beaucoup","Un seul","3 à 9"]}],
-      puzzle: [{full:["غُلِبَتِ","ٱلرُّومُ"],tr:"Ghoulibati r-Roum"},{full:["لِلَّهِ","ٱلۡأَمۡرُ","مِن","قَبۡلُ"],tr:"Lillahi l-amru min qablu"}],
-      missing: [{q:"غُلِبَتِ .......",tr:"Ghoulibati ...",a:"ٱلرُّومُ",opts:["ٱلرُّومُ","ٱلۡفُرۡسُ"]}, {q:"....... ٱلۡأَمۡرُ مِن قَبۡلُ",tr:"... al-amru...",a:"لِلَّهِ",opts:["لِلَّهِ","لِلْمَلِكِ"]}]
-    }
-  };
-
-  let currentAge, currentLevel, currentQuestions=[], questionIdx=0, isLocked=false;
+  // --- GAMES ENGINE ---
+  let currentAge, currentLevel, currentQuestions=[], questionIdx=0;
   const levelOrder=['vocab','puzzle','missing'];
-  const screens = { age:document.getElementById('age-select-screen'), level:document.getElementById('level-select-screen'), game:document.getElementById('game-area'), win:document.getElementById('level-complete') };
-
+  const screens={age:document.getElementById('age-select-screen'),level:document.getElementById('level-select-screen'),game:document.getElementById('game-area'),win:document.getElementById('level-complete')};
+  
   function openGameHub(){if(currentAudio)stopAudio();document.getElementById('game-modal').classList.add('open');resetGame();}
   function closeGameHub(){document.getElementById('game-modal').classList.remove('open');}
   function resetGame(){screens.age.style.display='grid';screens.level.style.display='none';screens.game.style.display='none';screens.win.style.display='none';document.getElementById('progress-track').style.display='none';}
   function selectAge(a){currentAge=a;screens.age.style.display='none';screens.level.style.display='grid';}
-  function selectLevel(l){currentLevel=l;screens.level.style.display='none';screens.game.style.display='flex';document.getElementById('progress-track').style.display='block';currentQuestions=[...gameData[currentAge][currentLevel]].sort(()=>Math.random()-0.5);questionIdx=0;loadQuestion();}
-
+  function selectLevel(l){
+    currentLevel=l; screens.level.style.display='none'; screens.game.style.display='flex'; screens.win.style.display='none';
+    document.getElementById('progress-track').style.display='block';
+    const gData = currentData.games[currentAge] && currentData.games[currentAge][currentLevel];
+    if(!gData || gData.length===0) { alert("Jeux à venir !"); resetGame(); return; }
+    currentQuestions=[...gData].sort(()=>Math.random()-0.5); questionIdx=0; loadQuestion();
+  }
   function loadQuestion(){
     if(questionIdx>=currentQuestions.length){finishLevel();return;}
     document.getElementById('progress-fill').style.width=((questionIdx/currentQuestions.length)*100)+'%';
@@ -381,8 +481,7 @@
     qBox.innerHTML=''; optGrid.innerHTML=''; optGrid.style.display='none'; puzArea.style.display='none';
 
     if(currentLevel==='puzzle'){
-      puzArea.style.display='block';
-      qBox.innerHTML=`<div class="q-tr-game" style="color:white; margin-bottom:10px;">${data.tr}</div>`;
+      puzArea.style.display='block'; qBox.innerHTML=`<div class="q-tr-game" style="color:white; margin-bottom:10px;">${data.tr}</div>`;
       const drop=document.getElementById('puzzle-dropzone'), src=document.getElementById('puzzle-source'); drop.innerHTML=''; src.innerHTML='';
       let userIndices=[], pieces=data.full.map((w,i)=>({w,i}));
       pieces.sort(()=>Math.random()-0.5).forEach(pObj=>{
@@ -395,18 +494,15 @@
         src.appendChild(p);
       });
     } else {
-      optGrid.style.display='grid';
-      qBox.innerHTML=`<div class="q-ar">${data.q}</div><div class="q-tr-game">${data.tr}</div>`;
+      optGrid.style.display='grid'; qBox.innerHTML=`<div class="q-ar">${data.q}</div><div class="q-tr-game">${data.tr}</div>`;
       [...data.opts].sort(()=>Math.random()-0.5).forEach(opt=>{
         const btn=document.createElement('button'); btn.className='game-btn';
         let valText=(typeof opt==='object')?opt.t:opt;
         btn.innerHTML=(typeof opt==='object')?`<span class="game-btn-icon">${opt.i}</span><span>${opt.t}</span>`:`<span>${opt}</span>`;
-        btn.onclick=()=>checkOption(btn, valText, data.a);
-        btn.dataset.val=valText; optGrid.appendChild(btn);
+        btn.onclick=()=>checkOption(btn, valText, data.a); btn.dataset.val=valText; optGrid.appendChild(btn);
       });
     }
   }
-
   function checkPuzzle(uIdx, total, drop){
     if(uIdx.length===total){
       if(uIdx.every((v,i)=>v===i)){drop.style.borderColor="#2ecc71"; fireConfetti(); setTimeout(()=>{questionIdx++;loadQuestion();drop.style.borderColor="rgba(255,255,255,0.3)";},1000);}
@@ -416,12 +512,7 @@
   function checkOption(btn, sel, corr){
     if(isLocked)return; isLocked=true;
     if(sel===corr){btn.classList.add('correct'); fireConfetti(); setTimeout(()=>{questionIdx++;loadQuestion();},1000);}
-    else{btn.classList.add('wrong'); navigator.vibrate?.(300); 
-      document.querySelectorAll('.game-btn').forEach(b=>{if(b.dataset.val===corr)b.classList.add('reveal')});
-      document.getElementById('correction-box').style.display='block';
-      document.getElementById('correction-box').innerText=`Correction : ${corr}`;
-      setTimeout(()=>{questionIdx++;loadQuestion();},2500);
-    }
+    else{btn.classList.add('wrong'); navigator.vibrate?.(300); document.querySelectorAll('.game-btn').forEach(b=>{if(b.dataset.val===corr)b.classList.add('reveal')}); document.getElementById('correction-box').style.display='block'; document.getElementById('correction-box').innerText=`Correction : ${corr}`; setTimeout(()=>{questionIdx++;loadQuestion();},2500);}
   }
   function finishLevel(){
     screens.game.style.display='none'; screens.win.style.display='flex'; fireMassiveConfetti();
@@ -429,28 +520,18 @@
     if(currentIdx<levelOrder.length-1){ btn.innerText="Jeu Suivant ➡"; btn.onclick=()=>selectLevel(levelOrder[currentIdx+1]); }
     else{ btn.innerText="Menu Principal 🏠"; btn.onclick=()=>resetGame(); }
   }
-
-  // RECORDER
-  const recModal=document.getElementById('recorder-modal');
-  let mediaRecorder, audioChunks=[];
-  function openRecorder(){if(currentAudio)stopAudio();recModal.classList.add('open');}
-  function closeRecorder(){recModal.classList.remove('open');}
-  function toggleRecording(){
-    const btn=document.getElementById('mic-trigger'), stat=document.getElementById('mic-status');
-    if(!btn.classList.contains('recording')){
-      navigator.mediaDevices.getUserMedia({audio:true}).then(s=>{
-        mediaRecorder=new MediaRecorder(s); mediaRecorder.start(); audioChunks=[];
-        mediaRecorder.ondataavailable=e=>audioChunks.push(e.data);
-        mediaRecorder.onstop=()=>{
-          const u=URL.createObjectURL(new Blob(audioChunks,{type:'audio/mp3'}));
-          document.getElementById('user-playback').src=u; document.getElementById('user-playback').style.display='block';
-          document.getElementById('save-rec-btn').style.display='block'; s.getTracks().forEach(t=>t.stop());
-        };
-        btn.classList.add('recording'); stat.innerText="Enregistrement..."; stat.style.color="#ff4757";
-      }).catch(e=>alert("Micro bloqué"));
-    } else { mediaRecorder.stop(); btn.classList.remove('recording'); stat.innerText="Écoute-toi"; stat.style.color="#b2bec3"; }
+  
+  // FONCTION TAILLE POLICE CORRIGEE
+  function adjustSize(t,d){ 
+    fontSizes[t]+=d; 
+    if(fontSizes[t]<10)fontSizes[t]=10; 
+    if(fontSizes[t]>70)fontSizes[t]=70; 
+    
+    if(t==='ar')document.querySelectorAll('.ar-text').forEach(e=>e.style.fontSize=fontSizes.ar+'px');
+    if(t==='tr')document.querySelectorAll('.tr-text').forEach(e=>e.style.fontSize=fontSizes.tr+'px');
+    if(t==='fr')document.querySelectorAll('.fr-text').forEach(e=>e.style.fontSize=fontSizes.fr+'px'); 
   }
-  function saveRecord(){fireConfetti(); setTimeout(()=>{closeRecorder();alert("Bravo !");},1500);}
+
   function fireConfetti(){confetti({particleCount:50,spread:60,origin:{y:0.7}});}
   function fireMassiveConfetti(){const end=Date.now()+3000; (function frame(){confetti({particleCount:5,angle:60,spread:55,origin:{x:0},colors:['#00ff88','#fdcb6e']});confetti({particleCount:5,angle:120,spread:55,origin:{x:1},colors:['#00ff88','#fdcb6e']});if(Date.now()<end)requestAnimationFrame(frame);}());}
 </script>
