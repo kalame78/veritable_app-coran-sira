@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sira Coranique — V17 Final</title>
+  <title>Sira Coranique — Programme Complet</title>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     /* -----------------------------------------------------------
-       1. CSS (DESIGN & LAYOUT) - TON DESIGN INTACT
+       CSS (DESIGN V17 - INTACT)
        ----------------------------------------------------------- */
     @import url('https://cdn.jsdelivr.net/npm/kfgqpc-uthmanic-script-hafs-regular@1.0.0/index.min.css');
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka:wght@400;600&display=swap');
@@ -158,76 +158,100 @@
     <div class="timeline-line"></div>
 
     <div class="timeline-section">
-      <div class="section-header"><div class="section-number">1</div><div class="section-info"><h3 class="section-title">Les Origines</h3><div class="section-desc">Mecque - 570</div></div></div>
+      <div class="section-header"><div class="section-number">1</div><div class="section-info"><h3 class="section-title">Avant la naissance</h3><div class="section-desc">L'Enfance</div></div></div>
       <div class="hub-grid">
         <div class="hub-card th-mekka" onclick="loadModule('al-fil')"><span class="hub-icon">🐘</span><div class="hub-title-txt">Al-Fil</div><div class="hub-sub-txt">L'Éléphant</div></div>
-        <div class="hub-card th-mekka locked"><span class="lock-icon">🔒</span><span class="hub-icon">🕌</span><div class="hub-title-txt">Quraysh</div><div class="hub-sub-txt">La Tribu</div></div>
+        <div class="hub-card th-mekka locked"><span class="lock-icon">🔒</span><span class="hub-icon">🏠</span><div class="hub-title-txt">Quraysh</div><div class="hub-sub-txt">Les Faveurs</div></div>
       </div>
     </div>
 
     <div class="timeline-section">
-      <div class="section-header"><div class="section-number">2</div><div class="section-info"><h3 class="section-title">La Révélation</h3><div class="section-desc">Grotte de Hira</div></div></div>
+      <div class="section-header"><div class="section-number">2</div><div class="section-info"><h3 class="section-title">Début Révélation</h3><div class="section-desc">Mission Prophétique</div></div></div>
       <div class="hub-grid">
-        <div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">⛰️</span><div class="hub-title-txt">Al-'Alaq</div><div class="hub-sub-txt">Lis !</div></div>
-        <div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🛌</span><div class="hub-title-txt">Al-Muddathir</div><div class="hub-sub-txt">Lève-toi</div></div>
+        <div class="hub-card th-mekka" onclick="loadModule('al-alaq')"><span class="hub-icon">⛰️</span><div class="hub-title-txt">Al-'Alaq</div><div class="hub-sub-txt">Lis !</div></div>
+        <div class="hub-card th-mekka locked"><span class="lock-icon">🔒</span><span class="hub-icon">🛌</span><div class="hub-title-txt">Al-Muddathir</div><div class="hub-sub-txt">Lève-toi</div></div>
+        <div class="hub-card th-hope locked"><span class="lock-icon">🔒</span><span class="hub-icon">☀️</span><div class="hub-title-txt">Ad-Duha</div><div class="hub-sub-txt">Le Jour</div></div>
+        <div class="hub-card th-hope locked"><span class="lock-icon">🔒</span><span class="hub-icon">❤️</span><div class="hub-title-txt">Al-Inshirah</div><div class="hub-sub-txt">Soulagement</div></div>
       </div>
     </div>
 
     <div class="timeline-section">
-      <div class="section-header"><div class="section-number">3</div><div class="section-info"><h3 class="section-title">La Promesse</h3><div class="section-desc">Confiance en Allah</div></div></div>
+      <div class="section-header"><div class="section-number">3</div><div class="section-info"><h3 class="section-title">Opposition</h3><div class="section-desc">Persécutions</div></div></div>
       <div class="hub-grid">
-        <div class="hub-card th-hope" onclick="loadModule('ar-rum')">
-          <span class="hub-icon">⚔️</span><div class="hub-title-txt">Ar-Rum</div><div class="hub-sub-txt">Les Romains</div>
-        </div>
+        <div class="hub-card th-hope" onclick="loadModule('ar-rum')"><span class="hub-icon">⚔️</span><div class="hub-title-txt">Ar-Rum</div><div class="hub-sub-txt">Les Romains</div></div>
+        
+        <div class="hub-card th-trial locked"><span class="lock-icon">🔒</span><span class="hub-icon">🔥</span><div class="hub-title-txt">Al-Masad</div><div class="hub-sub-txt">Abou Lahab</div></div>
+        <div class="hub-card th-trial locked"><span class="lock-icon">🔒</span><span class="hub-icon">🥣</span><div class="hub-title-txt">Al-Ma'oun</div><div class="hub-sub-txt">L'Entraide</div></div>
+        <div class="hub-card th-trial locked"><span class="lock-icon">🔒</span><span class="hub-icon">💧</span><div class="hub-title-txt">Al-Kawthar</div><div class="hub-sub-txt">Abondance</div></div>
+        <div class="hub-card th-trial locked"><span class="lock-icon">🔒</span><span class="hub-icon">✋</span><div class="hub-title-txt">Al-Kafiroun</div><div class="hub-sub-txt">Les Infidèles</div></div>
+        <div class="hub-card th-trial locked"><span class="lock-icon">🔒</span><span class="hub-icon">🦯</span><div class="hub-title-txt">'Abasa</div><div class="hub-sub-txt">L'Aveugle</div></div>
+        <div class="hub-card th-trial locked"><span class="lock-icon">🔒</span><span class="hub-icon">🌑</span><div class="hub-title-txt">Al-Qamar</div><div class="hub-sub-txt">La Lune</div></div>
       </div>
     </div>
 
     <div class="timeline-section">
-        <div class="section-header"><div class="section-number">4</div><div class="section-info"><h3 class="section-title">L'Appel Public</h3><div class="section-desc">Mont Safa</div></div></div>
-        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">📣</span><div class="hub-title-txt">Al-Hijr</div><div class="hub-sub-txt">Proclame !</div></div></div>
-    </div>
-    
-    <div class="timeline-section">
-        <div class="section-header"><div class="section-number">5</div><div class="section-info"><h3 class="section-title">Les Premiers</h3><div class="section-desc">Convertis</div></div></div>
-        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🤝</span><div class="hub-title-txt">Az-Zumar</div><div class="hub-sub-txt">Groupes</div></div></div>
-    </div>
-
-    <div class="timeline-section">
-        <div class="section-header"><div class="section-number">6</div><div class="section-info"><h3 class="section-title">L'Épreuve</h3><div class="section-desc">Persécutions</div></div></div>
-        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🕸️</span><div class="hub-title-txt">Al-Ankabut</div><div class="hub-sub-txt">L'Araignée</div></div></div>
-    </div>
-
-    <div class="timeline-section">
-        <div class="section-header"><div class="section-number">7</div><div class="section-info"><h3 class="section-title">L'Abyssinie</h3><div class="section-desc">L'Exil</div></div></div>
-        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🚢</span><div class="hub-title-txt">Maryam</div><div class="hub-sub-txt">Marie</div></div></div>
-    </div>
-
-    <div class="timeline-section">
-        <div class="section-header"><div class="section-number">8</div><div class="section-info"><h3 class="section-title">Hamza & Umar</h3><div class="section-desc">Force</div></div></div>
-        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🦁</span><div class="hub-title-txt">Al-Hadid</div><div class="hub-sub-txt">Le Fer</div></div></div>
-    </div>
-
-    <div class="timeline-section">
-        <div class="section-header"><div class="section-number">9</div><div class="section-info"><h3 class="section-title">Le Boycott</h3><div class="section-desc">Famine</div></div></div>
-        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🍂</span><div class="hub-title-txt">Al-Mu'minun</div><div class="hub-sub-txt">Patience</div></div></div>
-    </div>
-
-    <div class="timeline-section">
-        <div class="section-header"><div class="section-number">10</div><div class="section-info"><h3 class="section-title">Année de Tristesse</h3><div class="section-desc">Pauvreté & Solitude</div></div></div>
+        <div class="section-header"><div class="section-number">4</div><div class="section-info"><h3 class="section-title">Isra & Mi'raj</h3><div class="section-desc">Voyage Nocturne</div></div></div>
         <div class="hub-grid">
-            <div class="hub-card th-hope" onclick="loadModule('ad-duha')"><span class="hub-icon">☀️</span><div class="hub-title-txt">Ad-Duha</div><div class="hub-sub-txt">Le Jour</div></div>
-            <div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">❤️</span><div class="hub-title-txt">Ash-Sharh</div><div class="hub-sub-txt">L'Ouverture</div></div>
+            <div class="hub-card th-mekka locked"><span class="lock-icon">🔒</span><span class="hub-icon">🌌</span><div class="hub-title-txt">Al-Isra</div><div class="hub-sub-txt">Le Voyage</div></div>
         </div>
     </div>
 
     <div class="timeline-section">
-        <div class="section-header"><div class="section-number">11</div><div class="section-info"><h3 class="section-title">Isra & Mi'raj</h3><div class="section-desc">Voyage Nocturne</div></div></div>
-        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🌌</span><div class="hub-title-txt">Al-Isra</div><div class="hub-sub-txt">Le Voyage</div></div></div>
+        <div class="section-header"><div class="section-number">5</div><div class="section-info"><h3 class="section-title">L'Hégire</h3><div class="section-desc">Migration</div></div></div>
+        <div class="hub-grid">
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">🕸️</span><div class="hub-title-txt">At-Tawba</div><div class="hub-sub-txt">La Grotte</div></div>
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">🦂</span><div class="hub-title-txt">Al-Anfal</div><div class="hub-sub-txt">Complot</div></div>
+        </div>
     </div>
 
     <div class="timeline-section">
-        <div class="section-header"><div class="section-number">12</div><div class="section-info"><h3 class="section-title">L'Hégire</h3><div class="section-desc">Vers Médine</div></div></div>
-        <div class="hub-grid"><div class="hub-card locked"><span class="lock-icon">🔒</span><span class="hub-icon">🐪</span><div class="hub-title-txt">Al-Anfal</div><div class="hub-sub-txt">Le Butin</div></div></div>
+        <div class="section-header"><div class="section-number">6</div><div class="section-info"><h3 class="section-title">Batailles</h3><div class="section-desc">Evénements Médine</div></div></div>
+        <div class="hub-grid">
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">🛡️</span><div class="hub-title-txt">Al-Anfal</div><div class="hub-sub-txt">Badr</div></div>
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">🏹</span><div class="hub-title-txt">Al-Imran</div><div class="hub-sub-txt">Uhud</div></div>
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">🏰</span><div class="hub-title-txt">Al-Ahzab</div><div class="hub-sub-txt">Le Fossé</div></div>
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">🌴</span><div class="hub-title-txt">Al-Hashr</div><div class="hub-sub-txt">Expulsion</div></div>
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">🕯️</span><div class="hub-title-txt">An-Nur</div><div class="hub-sub-txt">Calomnie</div></div>
+        </div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">7</div><div class="section-info"><h3 class="section-title">La Victoire</h3><div class="section-desc">Traités</div></div></div>
+        <div class="hub-grid">
+            <div class="hub-card th-win locked"><span class="lock-icon">🔒</span><span class="hub-icon">🏳️</span><div class="hub-title-txt">Al-Fath</div><div class="hub-sub-txt">Houdaybiya</div></div>
+            <div class="hub-card th-win locked"><span class="lock-icon">🔒</span><span class="hub-icon">🚩</span><div class="hub-title-txt">An-Nasr</div><div class="hub-sub-txt">Victoire</div></div>
+        </div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">8</div><div class="section-info"><h3 class="section-title">Miracles</h3><div class="section-desc">Signes Divins</div></div></div>
+        <div class="hub-grid">
+             <div class="hub-card th-trial locked"><span class="lock-icon">🔒</span><span class="hub-icon">🧞</span><div class="hub-title-txt">Al-Jinn</div><div class="hub-sub-txt">Les Djinns</div></div>
+             <div class="hub-card th-trial locked"><span class="lock-icon">🔒</span><span class="hub-icon">🛡️</span><div class="hub-title-txt">Mu'awwidhat</div><div class="hub-sub-txt">Protection</div></div>
+        </div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">9</div><div class="section-info"><h3 class="section-title">Le Modèle</h3><div class="section-desc">Comportement</div></div></div>
+        <div class="hub-grid">
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">✨</span><div class="hub-title-txt">Al-Qalam</div><div class="hub-sub-txt">Caractère</div></div>
+            <div class="hub-card th-medina locked"><span class="lock-icon">🔒</span><span class="hub-icon">🤝</span><div class="hub-title-txt">Al-Ahzab</div><div class="hub-sub-txt">Modèle</div></div>
+        </div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">10</div><div class="section-info"><h3 class="section-title">Fin de Mission</h3><div class="section-desc">Accomplissement</div></div></div>
+        <div class="hub-grid">
+            <div class="hub-card th-win locked"><span class="lock-icon">🔒</span><span class="hub-icon">☝️</span><div class="hub-title-txt">Al-Ma'ida</div><div class="hub-sub-txt">Parachèvement</div></div>
+            <div class="hub-card th-win locked"><span class="lock-icon">🔒</span><span class="hub-icon">🏁</span><div class="hub-title-txt">An-Nasr</div><div class="hub-sub-txt">Les Adieux</div></div>
+        </div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="section-header"><div class="section-number">11</div><div class="section-info"><h3 class="section-title">Juz 'Amma</h3><div class="section-desc">Autres Sourates</div></div></div>
+        <div class="hub-grid">
+            <div class="hub-card th-mekka locked"><span class="lock-icon">🔒</span><span class="hub-icon">📚</span><div class="hub-title-txt">Juz 'Amma</div><div class="hub-sub-txt">Suite...</div></div>
+        </div>
     </div>
 
   </div>
@@ -299,8 +323,160 @@
 </div>
 
 <script>
-  // ====================== DATA ======================
+  // ====================== DATA (BIBLIOTHEQUE) ======================
   const ModuleContent = {
+    // 1. AL-FIL (L'ÉLÉPHANT)
+    "al-fil": {
+      title: "Al-Fil (L'Éléphant)", surahId: 105,
+      verses: [
+        { id:1, ar:"أَلَمۡ تَرَ كَيۡفَ فَعَلَ رَبُّكَ بِأَصۡحَٰبِ ٱلۡفِيلِ", tr:"Alam tara kayfa fa'ala rabbuka bi-ashâbi l-fîl", fr:"N'as-tu pas vu comment ton Seigneur a agi envers les gens de l'Éléphant ?" },
+        { id:2, ar:"أَلَمۡ يَجۡعَلۡ كَيۡدَهُمۡ فِي تَضۡلِيلٖ", tr:"Alam yaj'al kaydahum fî taḍlîl", fr:"N'a-t-Il pas rendu leur ruse complètement vaine ?" },
+        { id:3, ar:"وَأَرۡسَلَ عَلَيۡهِمۡ طَيۡرًا أَبَابِيلَ", tr:"Wa arsala 'alayhim tayran abâbîl", fr:"Et envoyé sur eux des oiseaux par volées," },
+        { id:4, ar:"تَرۡمِيهِم بِحِجَارَةٖ مِّن سِجِّيلٖ", tr:"Tarmîhim bi-hijâratin min sijjîl", fr:"qui leur lançaient des pierres d'argile durcie ?" },
+        { id:5, ar:"فَجَعَلَهُمۡ كَعَصۡفٖ مَّأۡكُولِۭ", tr:"Faja'alahum ka'asfin ma'kûl", fr:"Il les a rendus semblables à de la paille mâchée." }
+      ],
+      story: {
+        eveil: [
+          { img:"👑", title:"Le Roi Jaloux", text:"Un roi méchant du Yémen, Abraha, était jaloux de la Kaaba à la Mecque. Il voulait que les gens viennent chez LUI.", sourceDetail:"Histoire des Arabes" },
+          { img:"🐘", title:"L'Armée", text:"Il a préparé une immense armée avec des éléphants géants pour détruire la Kaaba. Les Arabes avaient très peur.", sourceDetail:"Sira du Prophète" },
+          { img:"🛑", title:"Le Miracle", text:"Arrivé devant la Mecque, le grand éléphant (Mahmoud) s'est assis ! Il refusait d'avancer vers la Kaaba, mais il courait vers les autres directions.", sourceDetail:"Tafsir Ibn Kathir" },
+          { img:"🦅", title:"Les Oiseaux", text:"Allah a envoyé des petits oiseaux (Ababil). Ils ont jeté des petites pierres sur les méchants et ont sauvé la Maison d'Allah.", sourceDetail:"Coran 105:3-4" }
+        ],
+        chercheur: [
+          { img:"📅", title:"L'Année de l'Éléphant", text:"Cet événement a eu lieu en 570 ap. J.C. C'est une date très importante car c'est l'année de naissance du Prophète Muhammad ﷺ.", sourceDetail:"Contexte Historique" },
+          { img:"👴", title:"Abdul-Muttalib", text:"Le grand-père du Prophète a dit à Abraha : 'Je suis le seigneur des chameaux, mais la Maison (Kaaba) a un Seigneur (Allah) qui la protégera.'", sourceDetail:"Ibn Hisham" },
+          { img:"🧱", title:"Sijjil", text:"Les pierres étaient en argile cuite (Sijjil). Chaque pierre portait le nom du soldat qu'elle devait toucher. C'était une punition divine précise.", sourceDetail:"Tafsir Al-Qurtubi" },
+          { img:"🕋", title:"La Protection", text:"Allah a montré qu'Il protège Sa maison. Même sans prophète (à ce moment-là), Allah ne laisse pas le faux détruire le sacré.", sourceDetail:"Leçon Théologique" }
+        ]
+      },
+      games: {
+        age6: {
+          vocab: [
+            {q:"ٱلۡفِيلِ",tr:"Al-Fil",a:"L'Éléphant",opts:[{t:"L'Éléphant",i:"🐘"},{t:"Le Lion",i:"🦁"}]},
+            {q:"طَيۡرًا",tr:"Tayran",a:"Oiseaux",opts:[{t:"Oiseaux",i:"🦅"},{t:"Avions",i:"✈️"}]},
+            {q:"أَبَابِيلَ",tr:"Ababil",a:"Par volées",opts:[{t:"Par volées",i:"💨"},{t:"Un seul",i:"☝️"}]},
+            {q:"حِجَارَةٖ",tr:"Hijara",a:"Pierres",opts:[{t:"Pierres",i:"🪨"},{t:"Bonbons",i:"🍬"}]},
+            {q:"تَضۡلِيلٖ",tr:"Tadlil",a:"Vaine / Echec",opts:[{t:"Vaine / Echec",i:"❌"},{t:"Réussite",i:"✅"}]},
+            {q:"رَبُّكَ",tr:"Rabbuka",a:"Ton Seigneur",opts:[{t:"Ton Seigneur",i:"🤲"},{t:"Ton Ami",i:"🤝"}]}
+          ],
+          puzzle: [
+            {full:["أَلَمۡ","تَرَ","كَيۡفَ","فَعَلَ","رَبُّكَ"],tr:"Alam tara kayfa fa'ala rabbuka"},
+            {full:["بِأَصۡحَٰبِ","ٱلۡفِيلِ"],tr:"Bi-ashabi l-fil"},
+            {full:["أَلَمۡ","يَجۡعَلۡ","كَيۡدَهُمۡ","فِي","تَضۡلِيلٖ"],tr:"Alam yaj'al kaydahum fi tadlil"},
+            {full:["وَأَرۡسَلَ","عَلَيۡهِمۡ","طَيۡرًا","أَبَابِيلَ"],tr:"Wa arsala 'alayhim tayran ababil"},
+            {full:["تَرۡمِيهِم","بِحِجَارَةٖ","مِّن","سِجِّيلٖ"],tr:"Tarmihim bi-hijaratin min sijjil"},
+            {full:["فَجَعَلَهُمۡ","كَعَصۡفٖ","مَّأۡكُولِۭ"],tr:"Fa-ja'alahum ka'asfin ma'kul"}
+          ],
+          missing: [
+            {q:"بِأَصۡحَٰبِ .......",tr:"Bi-ashabi ...",a:"ٱلۡفِيلِ",opts:[{t:"ٱلۡفِيلِ",i:"🐘"},{t:"ٱلۡإِبِلِ",i:"🐫"}]},
+            {q:"وَأَرۡسَلَ عَلَيۡهِمۡ .......",tr:"Wa arsala 'alayhim ...",a:"طَيۡرًا",opts:[{t:"طَيۡرًا",i:"🦅"},{t:"رِيحًا",i:"🌬️"}]},
+            {q:"تَرۡمِيهِم .......",tr:"Tarmihim ...",a:"بِحِجَارَةٖ",opts:[{t:"بِحِجَارَةٖ",i:"🪨"},{t:"بِمَاءٍ",i:"💧"}]},
+            {q:"....... كَيۡدَهُمۡ فِي تَضۡلِيلٖ",tr:"... kaydahum fi tadlil",a:"أَلَمۡ يَجۡعَلۡ",opts:[{t:"أَلَمۡ يَجۡعَلۡ",i:"❓"},{t:"أَلَمۡ يَرَ",i:"👀"}]}
+          ]
+        },
+        age8: {
+          vocab: [
+            {q:"كَيۡدَهُمۡ",tr:"Kaydahum",a:"Leur ruse",opts:["Leur ruse","Leur maison","Leur argent"]},
+            {q:"تَضۡلِيلٖ",tr:"Tadlil",a:"Perdition/Echec",opts:["Perdition/Echec","Victoire","Route"]},
+            {q:"سِجِّيلٖ",tr:"Sijjil",a:"Argile durcie",opts:["Argile durcie","Fer","Feu"]},
+            {q:"عَصۡفٖ",tr:"'Asf",a:"Paille",opts:["Paille","Pain","Viande"]},
+            {q:"مَّأۡكُولِۭ",tr:"Ma'kul",a:"Mâchée",opts:["Mâchée","Mangée","Buvable"]},
+            {q:"أَبَابِيلَ",tr:"Ababil",a:"Par volées (Groupes)",opts:["Par volées (Groupes)","Grand","Rapide"]}
+          ],
+          puzzle: [
+            {full:["أَلَمۡ","تَرَ","كَيۡفَ","فَعَلَ","رَبُّكَ","بِأَصۡحَٰبِ","ٱلۡفِيلِ"],tr:"Verset 1 complet"},
+            {full:["أَلَمۡ","يَجۡعَلۡ","كَيۡدَهُمۡ","فِي","تَضۡلِيلٖ"],tr:"Verset 2 complet"},
+            {full:["وَأَرۡسَلَ","عَلَيۡهِمۡ","طَيۡرًا","أَبَابِيلَ"],tr:"Verset 3 complet"},
+            {full:["تَرۡمِيهِم","بِحِجَارَةٖ","مِّن","سِجِّيلٖ"],tr:"Verset 4 complet"},
+            {full:["فَجَعَلَهُمۡ","كَعَصۡفٖ","مَّأۡكُولِۭ"],tr:"Verset 5 complet"}
+          ],
+          missing: [
+            {q:"....... رَبُّكَ بِأَصۡحَٰبِ ٱلۡفِيلِ",tr:"... Rabbuka bi-ashabi l-fil",a:"فَعَلَ",opts:["فَعَلَ","قَالَ"]},
+            {q:"أَلَمۡ يَجۡعَلۡ ....... فِي تَضۡلِيلٖ",tr:"Alam yaj'al ... fi tadlil",a:"كَيۡدَهُمۡ",opts:["كَيۡدَهُمۡ","أَمْرَهُمۡ"]},
+            {q:"وَأَرۡسَلَ عَلَيۡهِمۡ ....... أَبَابِيلَ",tr:"Wa arsala ... ababil",a:"طَيۡرًا",opts:["طَيۡرًا","مَلَٰٓئِكَةٗ"]},
+            {q:"تَرۡمِيهِم بِحِجَارَةٖ مِّن .......",tr:"Tarmihim ... min ...",a:"سِجِّيلٖ",opts:["سِجِّيلٖ","ذَهَبٖ"]},
+            {q:"فَجَعَلَهُمۡ كَعَصۡفٖ .......",tr:"Faja'alahum ka'asfin ...",a:"مَّأۡكُولِۭ",opts:["مَّأۡكُولِۭ","مَشْرُوبٖ"]}
+          ]
+        }
+      }
+    },
+
+    // 2. AL-ALAQ (LA RÉVÉLATION)
+    "al-alaq": {
+      title: "Al-'Alaq (La Révélation)", surahId: 96,
+      verses: [
+        { id:1, ar:"ٱقۡرَأۡ بِٱسۡمِ رَبِّكَ ٱلَّذِي خَلَقَ", tr:"Iqra' bismi rabbika alladhi khalaq", fr:"Lis, au nom de ton Seigneur qui a créé," },
+        { id:2, ar:"خَلَقَ ٱلۡإِنسَٰنَ مِنۡ عَلَقٍ", tr:"Khalaqa al-insana min 'alaq", fr:"qui a créé l'homme d'une adhérence." },
+        { id:3, ar:"ٱقۡرَأۡ وَرَبُّكَ ٱلۡأَكۡرَمُ", tr:"Iqra' wa rabbuka al-akram", fr:"Lis ! Ton Seigneur est le Très Noble," },
+        { id:4, ar:"ٱلَّذِي عَلَّمَ بِٱلۡقَلَمِ", tr:"Alladhi 'allama bil-qalam", fr:"qui a enseigné par la plume (le calame)," },
+        { id:5, ar:"عَلَّمَ ٱلۡإِنسَٰنَ مَا لَمۡ يَعۡلَمۡ", tr:"'Allama al-insana ma lam ya'lam", fr:"a enseigné à l'homme ce qu'il ne savait pas." }
+      ],
+      story: {
+        eveil: [
+          { img:"⛰️", title:"La Grotte", text:"Le Prophète ﷺ aimait s'isoler dans une grotte appelée Hira pour réfléchir et prier Allah au calme.", sourceDetail:"Bukhari" },
+          { img:"✨", title:"L'Ange Jibril", text:"Soudain, l'Ange Jibril apparaît ! Il le serre très fort et lui dit : 'Iqra !' (Lis !). Le Prophète répond : 'Je ne sais pas lire !'.", sourceDetail:"Sahih Bukhari" },
+          { img:"📖", title:"La Révélation", text:"L'Ange répète 3 fois. Enfin, le Prophète répète après lui les premiers mots du Coran : 'Lis au nom de ton Seigneur...'", sourceDetail:"Début de la Prophétie" },
+          { img:"🏃", title:"Le Retour", text:"Le Prophète a eu peur et est rentré en courant chez sa femme Khadija. Elle l'a rassuré : 'Allah ne t'abandonnera jamais.'", sourceDetail:"Rôle de Khadija (ra)" }
+        ],
+        chercheur: [
+          { img:"🌑", title:"L'Obscurité", text:"Avant l'Islam, c'était la 'Jahiliyya' (l'Ignorance). Les gens adoraient des pierres. Cette révélation est la lumière qui a tout changé.", sourceDetail:"Contexte Historique" },
+          { img:"🧠", title:"L'Adhérence ('Alaq)", text:"Le mot 'Alaq signifie 'caillot de sang' ou 'sangsue' (adhérence). C'est une description scientifique précise de l'embryon humain.", sourceDetail:"Miracle Scientifique" },
+          { img:"✍️", title:"La Plume (Qalam)", text:"Dès les premiers versets, Allah insiste sur la Science et l'Écriture. L'Islam est la religion du savoir, pas de l'ignorance.", sourceDetail:"Tafsir Al-Qurtubi" },
+          { img:"📜", title:"Waraqa ibn Nawfal", text:"Khadija a emmené le Prophète voir son cousin Waraqa (un savant chrétien). Il a confirmé : 'C'est le Namous (l'Ange) qui est venu à Moussa !'", sourceDetail:"Preuve de la Prophétie" }
+        ]
+      },
+      games: {
+        age6: {
+          vocab: [
+            {q:"ٱقۡرَأۡ",tr:"Iqra'",a:"Lis !",opts:[{t:"Lis !",i:"📖"},{t:"Dors !",i:"😴"}]},
+            {q:"ٱلۡإِنسَٰنَ",tr:"Al-Insan",a:"L'Homme",opts:[{t:"L'Homme",i:"👤"},{t:"Le Chat",i:"🐱"}]},
+            {q:"عَلَقٍ",tr:"'Alaq",a:"Adhérence",opts:[{t:"Adhérence",i:"🩸"},{t:"Eau",i:"💧"}]},
+            {q:"ٱلۡقَلَمِ",tr:"Al-Qalam",a:"La Plume",opts:[{t:"La Plume",i:"✍️"},{t:"L'Épée",i:"⚔️"}]},
+            {q:"خَلَقَ",tr:"Khalaqa",a:"Il a créé",opts:[{t:"Il a créé",i:"✨"},{t:"Il a mangé",i:"🍎"}]},
+            {q:"يَعۡلَمۡ",tr:"Ya'lam",a:"Il sait",opts:[{t:"Il sait",i:"🧠"},{t:"Il court",i:"🏃"}]}
+          ],
+          puzzle: [
+            {full:["ٱقۡرَأۡ","بِٱسۡمِ","رَبِّكَ","ٱلَّذِي","خَلَقَ"],tr:"Iqra' bismi rabbika alladhi khalaq"},
+            {full:["خَلَقَ","ٱلۡإِنسَٰنَ","مِنۡ","عَلَقٍ"],tr:"Khalaqa al-insana min 'alaq"},
+            {full:["ٱقۡرَأۡ","وَرَ‌بُّكَ","ٱلۡأَكۡرَمُ"],tr:"Iqra' wa rabbuka al-akram"},
+            {full:["ٱلَّذِي","عَلَّمَ","بِٱلۡقَلَمِ"],tr:"Alladhi 'allama bil-qalam"},
+            {full:["عَلَّمَ","ٱلۡإِنسَٰنَ","مَا","لَمۡ","يَعۡلَمۡ"],tr:"'Allama al-insana ma lam ya'lam"}
+          ],
+          missing: [
+            {q:"ٱقۡرَأۡ بِٱسۡمِ ....... ٱلَّذِي خَلَقَ",tr:"Iqra' bismi ... alladhi khalaq",a:"رَبِّكَ",opts:[{t:"رَبِّكَ",i:"🤲"},{t:"نَفْسِكَ",i:"👤"}]},
+            {q:"خَلَقَ ٱلۡإِنسَٰنَ مِنۡ .......",tr:"Khalaqa l-insana min ...",a:"عَلَقٍ",opts:[{t:"عَلَقٍ",i:"🩸"},{t:"طِينٍ",i:"🧱"}]},
+            {q:"ٱلَّذِي عَلَّمَ .......",tr:"Alladhi 'allama ...",a:"بِٱلۡقَلَمِ",opts:[{t:"بِٱلۡقَلَمِ",i:"✍️"},{t:"بِٱلْكَلَامِ",i:"🗣️"}]},
+            {q:"....... ٱلۡإِنسَٰنَ مَا لَمۡ يَعۡلَمۡ",tr:"... al-insana ma lam ya'lam",a:"عَلَّمَ",opts:[{t:"عَلَّمَ",i:"🧠"},{t:"ضَرَبَ",i:"👊"}]}
+          ]
+        },
+        age8: {
+          vocab: [
+            {q:"ٱلۡأَكۡرَمُ",tr:"Al-Akram",a:"Le Très Noble/Généreux",opts:["Le Très Noble/Généreux","Le Très Fort","Le Très Grand"]},
+            {q:"بِٱلۡقَلَمِ",tr:"Bil-Qalam",a:"Par la plume",opts:["Par la plume","Par la parole","Par le livre"]},
+            {q:"مَا لَمۡ يَعۡلَمۡ",tr:"Ma lam ya'lam",a:"Ce qu'il ne savait pas",opts:["Ce qu'il ne savait pas","Ce qu'il a vu","Ce qu'il a dit"]},
+            {q:"عَلَقٍ",tr:"'Alaq",a:"Adhérence/Caillot",opts:["Adhérence/Caillot","Boue","Sable"]},
+            {q:"خَلَقَ",tr:"Khalaqa",a:"Il a créé",opts:["Il a créé","Il a détruit","Il a transformé"]},
+            {q:"ٱقۡرَأۡ",tr:"Iqra'",a:"Lis (Impératif)",opts:["Lis (Impératif)","Écris","Écoute"]}
+          ],
+          puzzle: [
+            {full:["ٱقۡرَأۡ","بِٱسۡمِ","رَبِّكَ","ٱلَّذِي","خَلَقَ"],tr:"Verset 1"},
+            {full:["خَلَقَ","ٱلۡإِنسَٰنَ","مِنۡ","عَلَقٍ"],tr:"Verset 2"},
+            {full:["ٱقۡرَأۡ","وَرَ‌بُّكَ","ٱلۡأَكۡرَمُ"],tr:"Verset 3"},
+            {full:["ٱلَّذِي","عَلَّمَ","بِٱلۡقَلَمِ"],tr:"Verset 4"},
+            {full:["عَلَّمَ","ٱلۡإِنسَٰنَ","مَا","لَمۡ","يَعۡلَمۡ"],tr:"Verset 5"}
+          ],
+          missing: [
+            {q:"....... بِٱسۡمِ رَبِّكَ ٱلَّذِي خَلَقَ",tr:"... bismi rabbika...",a:"ٱقۡرَأۡ",opts:["ٱقۡرَأۡ","قُلۡ"]},
+            {q:"ٱقۡرَأۡ وَرَبُّكَ .......",tr:"Iqra' wa rabbuka...",a:"ٱلۡأَكۡرَمُ",opts:["ٱلۡأَكۡرَمُ","ٱلۡأَعْلَىٰ"]},
+            {q:"ٱلَّذِي عَلَّمَ .......",tr:"Alladhi 'allama...",a:"بِٱلۡقَلَمِ",opts:["بِٱلۡقَلَمِ","بِٱلْقُرْآنِ"]},
+            {q:"عَلَّمَ ٱلۡإِنسَٰنَ مَا لَمۡ .......",tr:"... ma lam...",a:"يَعۡلَمۡ",opts:["يَعۡلَمۡ","يَكْتُبۡ"]},
+            {q:"خَلَقَ ٱلۡإِنسَٰنَ مِنۡ .......",tr:"Khalaqa al-insana min...",a:"عَلَقٍ",opts:["عَلَقٍ","نُورٍ"]}
+          ]
+        }
+      }
+    },
+
+    // 5. AR-ROUM (LES ROMAINS)
     "ar-rum": {
       title: "Ar-Rum (Les Romains)", surahId: 30,
       verses: [
@@ -379,29 +555,17 @@
         }
       }
     },
-    // MODULES DE DEMO
-    "al-fil": {
-      title: "Al-Fil (L'Éléphant)", surahId: 105,
-      verses: [
-        { id:1, ar:"أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَٰبِ ٱلْفِيلِ", tr:"Alam tara kayfa...", fr:"N'as-tu pas vu comment ton Seigneur a agi envers les gens de l'Éléphant ?" }
-      ],
-      story: { eveil:[], chercheur:[] }, games: { age6:{}, age8:{} }
-    },
-    "ad-duha": {
-      title: "Ad-Duha", surahId: 93,
-      verses: [{id:1,ar:"وَٱلضُّحَىٰ",tr:"Wad-Duha",fr:"Par le jour montant"}],
-      story: {eveil:[],chercheur:[]}, games: {age6:{},age8:{}}
-    }
+    // PLACEHOLDERS POUR LES FUTURS MODULES
+    "ad-duha": { title: "Ad-Duha", surahId: 93, verses: [], story: {eveil:[],chercheur:[]}, games: {age6:{},age8:{}} }
   };
 
-  // ====================== ENGINE ======================
+  // ====================== MOTEUR (ENGINE) ======================
   
-  // CORRECTION FONTS : Ajout de la variable qui manquait
   let fontSizes = { ar: 30, tr: 15, fr: 15 };
-
   let currentData = null;
+
   function loadModule(id) {
-    if(!ModuleContent[id]) return alert("Module en construction !");
+    if(!ModuleContent[id] || ModuleContent[id].verses.length === 0) return alert("Ce module arrive bientôt inchaAllah !");
     currentData = ModuleContent[id];
     document.getElementById('view-hub').style.display='none';
     document.getElementById('view-module').style.display='block';
@@ -521,7 +685,6 @@
     else{ btn.innerText="Menu Principal 🏠"; btn.onclick=()=>resetGame(); }
   }
   
-  // FONCTION TAILLE POLICE CORRIGEE
   function adjustSize(t,d){ 
     fontSizes[t]+=d; 
     if(fontSizes[t]<10)fontSizes[t]=10; 
