@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sira Coranique — V24 (Ar-Roum Premium)</title>
+  <title>Sira Coranique — V26 (Sira Focus)</title>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -34,6 +34,17 @@
     }
     .header-title { font-family: 'Fredoka', sans-serif; font-size: 1.6rem; margin: 0; position:relative; z-index:2; text-transform: uppercase; line-height: 1.3; }
     .header-sub { font-size: 0.9rem; opacity: 0.9; margin-top: 5px; position:relative; z-index:2; font-weight: bold; }
+    
+    .verse-count-badge {
+        background: rgba(0,0,0,0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        margin-top: 8px;
+        display: inline-block;
+        font-weight: 700;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
 
     /* TIMELINE */
     .timeline-container { position: relative; padding-left: 20px; }
@@ -340,6 +351,7 @@
   <div class="header-box">
     <button class="home-btn" onclick="goHome()">🏠</button>
     <h1 class="header-title" id="mod-title">...</h1>
+    <div id="mod-subtitle" class="verse-count-badge" style="display:none;"></div>
   </div>
   
   <div class="toolbar">
@@ -404,9 +416,9 @@
 <script>
   // ====================== DATA (BIBLIOTHEQUE) ======================
   const ModuleContent = {
-    // 1. AL-FIL (L'ÉLÉPHANT) - REMASTERISÉ + SOURCES EXACTES
+    // 1. AL-FIL (L'ÉLÉPHANT)
     "al-fil": {
-      title: "Al-Fil (L'Éléphant)", surahId: 105,
+      title: "105. Al-Fil", totalVerses: 5, surahId: 105,
       verses: [
         { id:1, ar:"أَلَمۡ تَرَ كَيۡفَ فَعَلَ رَبُّكَ بِأَصۡحَٰبِ ٱلۡفِيلِ", tr:"Alam tara kayfa fa'ala rabbuka bi-ashâbi l-fîl", fr:"N'as-tu pas vu comment ton Seigneur a agi envers les gens de l'Éléphant ?" },
         { id:2, ar:"أَلَمۡ يَجۡعَلۡ كَيۡدَهُمۡ فِي تَضۡلِيلٖ", tr:"Alam yaj'al kaydahum fî taḍlîl", fr:"N'a-t-Il pas rendu leur ruse complètement vaine ?" },
@@ -480,9 +492,9 @@
       }
     },
 
-    // 2. AL-ALAQ (LA RÉVÉLATION) - PREMIUM + SOURCES
+    // 2. AL-ALAQ (LA RÉVÉLATION)
     "al-alaq": {
-      title: "Al-'Alaq (L'Adhérence)", surahId: 96,
+      title: "96. Al-'Alaq", totalVerses: 19, surahId: 96,
       verses: [
         { id:1, ar:"ٱقۡرَأۡ بِٱسۡمِ رَبِّكَ ٱلَّذِي خَلَقَ", tr:"Iqra' bismi rabbika alladhi khalaq", fr:"Lis, au nom de ton Seigneur qui a créé," },
         { id:2, ar:"خَلَقَ ٱلۡإِنسَٰنَ مِنۡ عَلَقٍ", tr:"Khalaqa al-insana min 'alaq", fr:"qui a créé l'homme d'une adhérence." },
@@ -557,13 +569,15 @@
 
     // 74. AL-MUDDATHIR (LÈVE-TOI !) - AJOUTÉ ET COMPLÉTÉ
     "al-muddathir": {
-      title: "Al-Muddathir (Lève-toi !)", surahId: 74,
+      title: "74. Al-Muddathir", totalVerses: 56, surahId: 74,
       verses: [
         { id:1, ar:"يَٰٓأَيُّهَا ٱلۡمُدَّثِّرُ", tr:"Ya ayyuha al-muddathir", fr:"Ô toi, le revêtu d'un manteau !" },
         { id:2, ar:"قُمۡ فَأَنذِرۡ", tr:"Qum fa-andhir", fr:"Lève-toi et avertis." },
         { id:3, ar:"وَرَبَّكَ فَكَبِّرۡ", tr:"Wa rabbaka fakabbir", fr:"Et ton Seigneur, magnifie-Le." },
         { id:4, ar:"وَثِيَابَكَ فَطَهِّرۡ", tr:"Wa thiyabaka fatahhir", fr:"Et tes vêtements, purifie-les." },
-        { id:5, ar:"وَٱلرُّجۡزَ فَٱهۡجُرۡ", tr:"War-rujza fahjur", fr:"Et de tout péché, écarte-toi." }
+        { id:5, ar:"وَٱلرُّجۡزَ فَٱهۡجُرۡ", tr:"War-rujza fahjur", fr:"Et de tout péché, écarte-toi." },
+        { id:6, ar:"وَلَا تَمۡنُن تَسۡتَكۡثِرُ", tr:"Wa la tamnun tastakthir", fr:"Et ne donne pas dans le but de recevoir davantage." },
+        { id:7, ar:"وَلِرَبِّكَ فَٱصۡبِرۡ", tr:"Wa lirabbika fasbir", fr:"Et pour ton Seigneur, endure." }
       ],
       story: {
         eveil: [
@@ -672,9 +686,9 @@
       }
     },
 
-    // 5. AR-ROUM (LES ROMAINS) - PREMIUM + SOURCES
+    // 5. AR-ROUM (LES ROMAINS)
     "ar-rum": {
-      title: "Ar-Rum (Les Romains)", surahId: 30,
+      title: "30. Ar-Rum", totalVerses: 60, surahId: 30,
       verses: [
         { id:1, ar:"الٓمٓ", tr:"Alif - Lâm - Mîm", fr:"Alif, Lâm, Mîm." },
         { id:2, ar:"غُلِبَتِ ٱلرُّومُ", tr:"Ghoulibati r-Roum", fr:"Les Romains ont été vaincus," },
@@ -751,7 +765,7 @@
       }
     },
     // PLACEHOLDERS POUR LES FUTURS MODULES
-    "ad-duha": { title: "Ad-Duha", surahId: 93, verses: [], story: {eveil:[],chercheur:[]}, games: {age6:{},age8:{}} }
+    "ad-duha": { title: "Ad-Duha", totalVerses: 11, surahId: 93, verses: [], story: {eveil:[],chercheur:[]}, games: {age6:{},age8:{}} }
   };
 
   // ====================== MOTEUR (ENGINE) ======================
@@ -765,7 +779,17 @@
     document.getElementById('view-hub').style.display='none';
     document.getElementById('view-module').style.display='block';
     window.scrollTo(0,0);
+    
+    // Titre et sous-titre versets
     document.getElementById('mod-title').innerText = currentData.title;
+    const sub = document.getElementById('mod-subtitle');
+    if(currentData.totalVerses){
+        sub.style.display = 'inline-block';
+        sub.innerText = `Extrait Sira (${currentData.verses.length} / ${currentData.totalVerses} versets)`;
+    } else {
+        sub.style.display = 'none';
+    }
+
     const cont = document.getElementById('verses-container'); cont.innerHTML='';
     currentData.verses.forEach(v => {
       const c = document.createElement('div'); c.className='verse-card'; c.id=`card-${currentData.surahId}-${v.id}`;
